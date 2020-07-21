@@ -30,6 +30,7 @@ class routes extends Component<Prop> {
     return (
       <ConnectedRouter history={history}>
         <Switch>          
+          <Route path="/login" component={Screen.Login} exact />
           <Route path="/accessdenied" component={Screen.AccessDenied} exact />
           <Route path="/" component={Screen.Reddit} />
           <Route component={Screen.NoMatch} />
@@ -45,5 +46,4 @@ const mapStateToProps = state => {
   }
 };
 
-// <Route path="/login" component={Screen.Login} exact />
 export default connect(mapStateToProps, null)(routes)
