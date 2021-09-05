@@ -1,0 +1,236 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<form #formReconciliation="ngForm">
+  <div class="row mb-3">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-left" *ngIf="reconciliation.supplierInvoiceHeaderId == null">
+      <!-- <button type="button" class="btn btn-info mr-3" title="Consultar Factura" (click)="showPDF()">
+        <span class="material-icons md-18 align-text-bottom">search</span> Consultar Factura  
+      </button> -->
+      <div class="form-group">
+         <div class="form-row">
+
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <button type="button" class="btn btn-info" (click)="fileUpload.click()">
+              <span class="material-icons md-18 align-text-bottom">insert_drive_file</span> Cargar XML Factura
+            </button>
+          </div>
+        </div>
+        <input type="file" id="fileUpload" #fileUpload class="d-none" 
+        (change)="invoiceXLSSelect($event)"
+        [accept]="fileUpload.allowedExtensions"/>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-left" *ngIf="reconciliation.supplierInvoiceHeaderId > 0">
+      <div class="form-group" >
+        <div class="form-row"> 
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <button type="button" class="btn btn-info mr-3" (click)="fileUpload.click()">
+            <span class="material-icons md-18 align-text-bottom">insert_drive_file</span> Cargar PDF Factura
+          </button>
+          <button type="button" class="btn btn-info" title="Dercargar PDF Factura" (click)="downloadPDF()" *ngIf="InvoicePDFId > 0">
+            <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Descargar PDF Factura
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileUpload" #fileUpload class="d-none" 
+       (change)="invoicePDFSelect($event)"
+       [accept]="fileUpload.allowedExtensions"/>
+     </div>
+      <!-- <button type="button" class="btn btn-info" title="Cargar XML" (click)="downloadPDF()">
+        <span class="material-icons md-18 align-text-bottom">insert_drive_file</span> Cargar XML
+      </button> -->
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right">
+      <button type="button" class="btn btn-info mr-3" title="Dercargar PDF" (click)="downloadPDF()">
+        <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Descargar PDF
+      </button>
+      <button type="button" class="btn btn-info" title="Ver PDF" (click)="showPDF()">
+        <span class="material-icons md-18 align-text-bottom">picture_as_pdf</span> Ver PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="reconciliation.supplierInvoiceHeaderId > 0">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-left">
+      <h2>Factura: {{ reconciliation.numberInvoice }} </h2>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <!-- <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="revised">Revisó</label>
+              <input type="text" class="form-control" name="revised" maxlength="50"
+                [(ngModel)]="reconciliation.revised" #revised="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="approved">Aprobó</label>
+              <input type="text" class="form-control" name="approved" id="approved" maxlength="50"
+                [(ngModel)]="reconciliation.approved" #approved="ngModel" disabled />
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierName">Proveedor</label>
+              <input type="text" class="form-control" name="supplierName" maxlength="50"
+                [(ngModel)]="reconciliation.supplierName" #supplierName="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierContactName">Contacto</label>
+              <input type="text" class="form-control" name="supplierContactName" id="supplierContactName" maxlength="50"
+                [(ngModel)]="reconciliation.supplierContactName" #supplierContactName="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="phoneContact">Telefono</label>
+              <input type="text" class="form-control" name="phoneContact" maxlength="50"
+                [(ngModel)]="reconciliation.phoneContact" #phoneContact="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="receptionDate">Fecha a Recibir</label>
+              <input type="text" class="form-control" name="receptionDate" id="receptionDate" maxlength="50"
+                [(ngModel)]="reconciliation.receptionDate" #receptionDate="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierPaymentTermName">Condiciones de Pago</label>
+              <input type="text" class="form-control" name="supplierPaymentTermName" maxlength="50"
+                [(ngModel)]="reconciliation.supplierPaymentTermName" #supplierPaymentTermName="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentTypeName">Tipo de Pago</label>
+              <input type="text" class="form-control" name="paymentTypeName" id="paymentTypeName" maxlength="50"
+                [(ngModel)]="reconciliation.paymentTypeName" #paymentTypeName="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    
+    <div class="col-lg-6 col-sm-6 col-md-6">
+      <ejs-grid #gridPurchaseOrders [dataSource]="listPurchaseOrderDetail" [allowRowDragAndDrop]='true' (rowDrop)="rowDrop($event)" (dataBound)="dataBound($event)"
+      [selectionSettings]='selectOptions' [allowSelection]="false" [enableHover]="false" rowHeight="40">
+        <e-columns>
+          <e-column headerText='PO' [columns]='colsPO' textAlign='center'></e-column>
+          <e-column field="" headerText="" width="60" minWidth="60" textAlign="center">
+            <ng-template #template let-data>
+              <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="confirmDelete(data)">
+                <span class="material-icons md-18 align-text-bottom">delete</span>
+              </button>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6">
+      <ejs-grid #gridInvoices [dataSource]="listInvoiceDetail" [allowSelection]="false" (dataBound)="dataBoundInvoice($event)"
+        [enableHover]="false" rowHeight="40">
+        <e-columns>
+          <e-column headerText='FACTURACIÓN' [columns]='cols' textAlign='center'></e-column>
+          <e-column field="" headerText="" width="50" minWidth="50" textAlign="center">
+            <ng-template #template let-data>
+              <span class="material-icons md-18 align-text-bottom {{ data.remarck  === true ? 'color-green' : 'color-red' }} ">{{ data.remarck  === true ? 'check_circle' : 'error'}}</span>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-lg-6 col-sm-6 col-md-6">
+      <div class="col-lg-12 col-md-12" align="right">
+        <p class="font-weight-bold m-3">
+          TOTAL: {{reconciliation.currencyCode}} {{totalPurchaseOrder}}
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6" *ngIf="totalInvoice > 0">
+      <div class="col-lg-12 col-md-12" align="right">
+        <p class="font-weight-bold m-3">
+          TOTAL: {{reconciliation.currencyCode}} {{totalInvoice}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="row mb-3">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="date">Fecha Inicio y Fin de Periodo</label>
+        <div id="control_wrapper" class="format">
+          <ejs-daterangepicker #dateformat [format]="format" [startDate]="startDate" [endDate]="endDate">
+          </ejs-daterangepicker>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="previousAmount">Monto Anterior</label>
+        <input type="text" class="form-control" name="previousAmount" maxlength="60"
+          [(ngModel)]="reconciliation.previousAmount" #previousAmount="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="discrepancy">Discrepancia</label>
+        <input type="text" class="form-control" name="discrepancy" maxlength="255"
+          [(ngModel)]="reconciliation.discrepancy" #discrepancy="ngModel" />
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="justification">Justificación</label>
+        <input type="text" class="form-control" name="justification" maxlength="255"
+          [(ngModel)]="reconciliation.justification" #justification="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+      <button type="button" class="btn btn-danger mr-3" routerLink="/purchases/reconciliation">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-success mr-3" title="Guardar" (click)="saveForm()" >
+        Guardar
+      </button>
+    </div>
+  </div>
+</form>

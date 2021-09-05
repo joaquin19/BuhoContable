@@ -1,0 +1,13 @@
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <ejs-grid #gridAuthorizers [dataSource]='listAuthorizers' height='350' childMapping='subtasks'
+        [allowRowDragAndDrop]='true' [selectionSettings]='selectOptions' (rowDrop)="rowDrop($event)"
+        (dataBound)="dataBound($event)">
+        <e-columns>
+          <e-column *ngFor=" let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+            [visible]="col.visible" clipMode='EllipsisWithTooltip'>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>

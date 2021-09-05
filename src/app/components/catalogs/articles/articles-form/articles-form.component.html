@@ -1,0 +1,128 @@
+<form #formArticle="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="code">Código</label>
+        <input type="text" class="form-control" name="code" maxlength="16" [(ngModel)]="article.code" #code="ngModel" />
+        <div *ngIf="(code.dirty || code.touched || submitted) && !code.valid" class="alert alert-danger">
+          <div *ngIf="!!code.errors?.required">
+            Código es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="name">Nombre Artículo</label>
+        <input type="text" class="form-control" name="name" maxlength="50" [(ngModel)]="article.name" #name="ngModel"
+          required />
+        <div *ngIf="(name.dirty || name.touched || submitted) && !name.valid" class="alert alert-danger">
+          <div *ngIf="!!name.errors?.required">
+            Nombre de Artículo es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción del Artículo</label>
+        <textarea class="form-control" name="description" id="description" rows="3"
+          maxlength="{{ maxLengthDescription }}" [(ngModel)]="article.description" #description="ngModel"></textarea>
+        <div *ngIf="(description.dirty || description.touched || submitted) && !description.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!description.errors?.required">
+            Descripción es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <span>
+          <strong>{{ maxLengthDescription }} </strong> /
+          {{ maxLengthDescription - article.description.length }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="articleTypes">Tipo Artículo</label>
+        <ejs-dropdownlist #articleTypeObj #articleTypeId="ngModel" [(ngModel)]="article.articleTypeId"
+          id="articleTypeId" name="articleTypeId" [dataSource]="listArticleTypes"
+          [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringArticleTypes($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un tipo de artículo'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(articleTypeId.dirty || articleTypeId.touched || submitted) && !articleTypeId.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!articleTypeId.errors?.required">
+            Tipo Artículo es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitsMeasure">Unidad de Medida</label>
+        <ejs-dropdownlist #unitsMeasureObj #unitsMeasure="ngModel" [(ngModel)]="article.unitMeasureId" id="unitsMeasure"
+          name="unitsMeasure" [dataSource]="listUnitsMeasure" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringUnitsMeasure($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una unidad de medida'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(unitsMeasure.dirty || unitsMeasure.touched || submitted) && !unitsMeasure.valid" class="alert alert-danger">
+          <div *ngIf="unitsMeasure.errors?.required">
+            Unidad de Medida es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitPrice">Precio Unitario</label>
+        <input type="text" class="form-control" name="unitPrice" maxlength="30" [(ngModel)]="article.unitPrice"
+          #unitPrice="ngModel" (blur)="blurUnitPrice($event)" required />
+        <div *ngIf="(unitPrice.dirty || unitPrice.touched || submitted) && !unitPrice.valid" class="alert alert-danger">
+          <div *ngIf="!!unitPrice.errors?.required">
+            Precio Unitario es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="dimension">Dimensión</label>
+        <input type="text" class="form-control" name="dimension" maxlength="30" [(ngModel)]="article.dimension"
+          #dimension="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div id="multiselect-sample" class="control-section" style="height: 50px">
+        <div class="control-styles">
+          <label class="font-weight-bold" for="tax">Impuestos</label>
+          <ejs-multiselect id='tax' #taxesObj [dataSource]='taxesData' name='tax' [(ngModel)]="article.tax"
+            [mode]='mode' [fields]='taxes' [placeholder]="'Seleccione Impuestos'" [showDropDownIcon]='true'
+            showSelectAll='true'>
+          </ejs-multiselect>
+          <!-- <div *ngIf="(taxesObj || submitted) && !article.tax.valid" class="alert alert-danger">
+            <div *ngIf="article.tax.errors?.required">
+              Tipo Artículo es requerido.
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+</form>

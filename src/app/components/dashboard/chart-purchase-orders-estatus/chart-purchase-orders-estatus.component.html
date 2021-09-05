@@ -1,0 +1,9 @@
+<ejs-accumulationchart [title]="chartTitle" [legendSettings]="chartLegend" [tooltip]="chartTooltip"
+  [enableAnimation]='enableAnimation' [center]='center'>
+  <e-accumulation-series-collection>
+    <e-accumulation-series type="Pie" [dataSource]="data" xName="x" yName="y" [dataLabel]="chartLabel"
+      [startAngle]="startAngle" [endAngle]="endAngle" innerRadius="0%" radius="70%" [explode]='explode'
+      explodeOffset='10%' [explodeIndex]='0'>
+    </e-accumulation-series>
+  </e-accumulation-series-collection>
+</ejs-accumulationchart>

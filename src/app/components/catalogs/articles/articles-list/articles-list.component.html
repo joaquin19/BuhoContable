@@ -1,0 +1,45 @@
+<div class="row mb-3">
+  <div class="col-lg-6 col-sm-6 col-md-6 text-left">
+    <button type="button" class="btn btn-info mr-3" title="Actualizar" (click)="getArticles();">
+      <span class="material-icons md-18 align-text-bottom">refresh</span> Actualizar
+    </button>
+    <button type="button" class="btn btn-info" title="Exportar Excel" (click)="exportToExcelList();"
+      *ngIf="listArticles.length > 0">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Excel
+    </button>
+  </div>
+  <div class="col-lg-6 col-sm-6 col-md-6 text-right">
+    <button type="button" class="btn btn-info" title="Nuevo" (click)="openModal(actionForm.Create, {})">
+      <span class="material-icons md-18 align-text-bottom">add</span> Nuevo
+    </button>
+  </div>
+</div>
+
+<div class="row mb-3" *ngIf="listArticles.length > 0">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+    <ejs-grid #gridArticles [dataSource]="listArticles" [allowPaging]="true" [allowSorting]="true"
+      [allowFiltering]="true" [filterSettings]="filterOptions" [pageSettings]="pageSettings" [gridLines]="gridLines"
+      rowHeight="20" [allowExcelExport]="true">
+      <e-columns>
+        <e-column *ngFor="let col of cols" field="{{ col.field }}" headerText="{{ col.header }}" width="{{ col.width }}"
+          [filter]="filterGrid" [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format">
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" style="padding: unset;" headerTextAlign="center"
+          textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Editar" (click)="openModal(actionForm.Edit, data)">
+              <span class="material-icons md-18 align-text-bottom">edit</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="confirmDelete(data)">
+              <span class="material-icons md-18 align-text-bottom">delete</span>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>

@@ -1,0 +1,237 @@
+/*
+* Icon Styles
+*/
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-28 {
+  font-size: 28px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.icon {
+  font-family: "Material Icons" !important;
+}
+
+.icon-menu {
+  font-family: "Material Icons" !important;
+  font-size: 18px !important;
+}
+
+/* End Icon Styles */
+
+/*
+* Icons General
+*/
+
+.icon-add:before {
+  content: "\e145" !important;
+}
+
+.icon-edit:before {
+  content: "\e3c9" !important;
+}
+
+.icon-delete:before {
+  content: "\e872" !important;
+}
+
+.icon-save:before {
+  content: "\e161" !important;
+}
+
+.icon-person:before {
+  content: "\e7fd" !important;
+}
+
+.icon-exit_to_app:before {
+  content: "\e879" !important;
+}
+
+.icon-block:before {
+  content: "\e14b" !important;
+}
+
+/* End Icons General */
+
+/*
+* Icons Menu
+*/
+
+.icon-home:before {
+  content: "\e88a" !important;
+}
+
+.icon-settings:before {
+  content: "\e8b8" !important;
+}
+
+.icon-people:before {
+  content: "\e7fb" !important;
+}
+
+.icon-assignment_ind:before {
+  content: "\e85e" !important;
+}
+
+.icon-store:before {
+  content: "\e8d1" !important;
+}
+
+.icon-list_alt:before {
+  content: "\e0ee" !important;
+}
+
+.icon-local_mall::before {
+  content: "\e54c" !important;
+}
+
+.icon-assignment::before {
+  content: "\e85d" !important;
+}
+
+.icon-spellcheck::before {
+  content: "\e8ce" !important;
+}
+
+.icon-assignment_turned_in::before {
+  content: "\e862" !important;
+}
+
+.icon-archive::before {
+  content: "\e149" !important;
+}
+
+.icon-trending_up::before {
+  content: "\e8e5" !important;
+}
+
+.icon-attach_money::before {
+  content: "\e227" !important;
+}
+
+.icon-transform::before {
+  content: "\e428" !important;
+}
+
+.icon-local_offer::before {
+  content: "\e54e" !important;
+}
+
+.icon-folder_shared::before {
+  content: "\e2c9" !important;
+}
+
+.icon-format_list_numbered::before {
+  content: "\e242" !important;
+}
+
+.icon-source::before {
+  content: "\f1c4" !important;
+}
+
+.icon-assignment::before {
+  content: "\e85d" !important;
+}
+
+.icon-account_balance_wallet::before {
+  content: "\e850" !important;
+}
+
+.icon-analytics::before {
+  content: "\ef3e" !important;
+}
+
+.icon-vertical_split::before {
+  content: "\e949" !important;
+}
+
+/* End Icons Menu */

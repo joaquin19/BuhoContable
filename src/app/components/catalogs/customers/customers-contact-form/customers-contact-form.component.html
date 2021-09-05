@@ -1,0 +1,95 @@
+<form #formCustomerContact="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="firstName">Nombre(s)</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="customerContact.firstName"
+          #firstName="ngModel" maxlength="50" appAutofocus required>
+        <div *ngIf="(firstName.dirty || firstName.touched || submitted) && !firstName.valid" class="alert alert-danger">
+          <div *ngIf="!!firstName.errors?.required">
+            Nombre(s) es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="lastName">Apellido(s)</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="customerContact.lastName"
+          #lastName="ngModel" maxlength="50" required>
+        <div *ngIf="(lastName.dirty || lastName.touched || submitted) && !lastName.valid" class="alert alert-danger">
+          <div *ngIf="!!lastName.errors?.required">
+            Apellido(s) es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone1">Teléfono 1</label>
+        <input mask="0*" class="form-control" name="phone1" [(ngModel)]="customerContact.phone1" #phone1="ngModel"
+          maxlength="10" required>
+        <div *ngIf="(phone1.dirty || phone1.touched || submitted) && !phone1.valid" class="alert alert-danger">
+          <div *ngIf="!!phone1.errors?.required">
+            Telefono 1 es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone2">Teléfono 2</label>
+        <input mask="0*" class="form-control" name="phone2" [(ngModel)]="customerContact.phone2" #phone2="ngModel"
+          maxlength="10">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil1">Celular 1</label>
+        <input mask="0*" class="form-control" name="movil1" [(ngModel)]="customerContact.movil1" #movil1="ngModel"
+          maxlength="10">
+        <div *ngIf="(movil1.dirty || movil1.touched || submitted) && !movil1.valid" class="alert alert-danger">
+          <div *ngIf="!!movil1.errors?.required">
+            Celular 1 es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil2">Celular 2</label>
+        <input mask="0*" class="form-control" name="movil2" [(ngModel)]="customerContact.movil2" #movil2="ngModel"
+          maxlength="10">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Email</label>
+        <input type="text" class="form-control" name="email" [(ngModel)]="customerContact.email" #email="ngModel"
+          maxlength="30"
+          pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
+          (ngModelChange)="customerContact.email=$event.toUpperCase()" required>
+        <div *ngIf="(email.dirty || email.touched || submitted) && !email.valid" class="alert alert-danger">
+          <div *ngIf="!!email.errors?.required">
+            Email es <strong>requerido</strong>
+          </div>
+          <div *ngIf="!!email.errors?.pattern">
+            El formato del Email es <strong>inválido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

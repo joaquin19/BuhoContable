@@ -1,0 +1,126 @@
+<nav id="header" class="navbar fixed-top p-0 shadow">
+  <div class="align-content-lg-start align-content-md-start align-content-sm-start">
+    <button class="btn mx-3">
+      <span class="material-icons md-28">menu</span>
+    </button>
+    <a [routerLink]="['/']">
+      <img class="navbar-brand logo-header" src="assets/images/KRAEM_Logo.png">
+    </a>
+  </div>
+</nav>
+
+<div class="container-fluid mb-4 overflow-hidden-x">
+
+  <div class="row my-3 border-bottom">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+      <h3 class="h3">{{ titleHeader }}</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+      <h5>{{ messageHerader }}</h5>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <form name="activateForm" #activateForm="ngForm" [appMatchPassword]="['newPassword', 'confirmNewPassword']"
+          novalidate>
+          <div class="row">
+
+            <div class="col-lg-6 col-sm-6 col-md-12">
+              <div class="form-group">
+                <label class="font-weight-bold" for="newPassword">Nueva Contraseña</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <span class="material-icons md-18">lock</span>
+                    </span>
+                  </div>
+                  <input class="form-control" [type]="fieldTextTypeNewPassword ? 'text' : 'password'" id="newPassword"
+                    name="newPassword" [(ngModel)]="validateUser.newPassword" #newPassword="ngModel"
+                    [ngClass]="{ 'is-invalid': submitted && newPassword.errors }" required />
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <span role="button" class="material-icons md-18" (click)="toggleFieldTextTypeNewPassword()">
+                        {{ fieldTextTypeNewPassword ? 'visibility_off' : 'visibility' }}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="(newPassword.dirty || newPassword.touched || submitted) && !newPassword.valid"
+                  class="alert alert-danger">
+                  <div *ngIf="!!newPassword.errors.mustMatch">
+                    Las contraseñas no <strong>coinciden</strong>
+                  </div>
+                  <div *ngIf="!!newPassword.errors?.required">
+                    Nueva Contraseña es <strong>requerida</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-12">
+              <div class="form-group">
+                <label class="font-weight-bold" for="confirmNewPassword">Confirmar Contraseña</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <span class="material-icons md-18">lock</span>
+                    </span>
+                  </div>
+                  <input class="form-control" [type]="fieldTextTypeConfirmNewPassword ? 'text' : 'password'"
+                    id="confirmNewPassword" name="confirmNewPassword" [(ngModel)]="validateUser.confirmNewPassword"
+                    #confirmNewPassword="ngModel" [ngClass]="{ 'is-invalid': submitted && confirmNewPassword.errors }"
+                    required />
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <span role="button" class="material-icons md-18"
+                        (click)="toggleFieldTextTypeConfirmNewPassword()">
+                        {{ fieldTextTypeConfirmNewPassword ? 'visibility_off' : 'visibility' }}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  *ngIf="(confirmNewPassword.dirty || confirmNewPassword.touched || submitted) && !confirmNewPassword.valid"
+                  class="alert alert-danger">
+                  <div *ngIf="!!confirmNewPassword.errors?.required">
+                    Confirmar Contraseña es <strong>requerida</strong>
+                  </div>
+                  <div *ngIf="!!confirmNewPassword.errors?.passwordMismatch">
+                    Las contraseñas no <strong>coinciden</strong>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="row mt-3">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right">
+              <button type="button" class="btn btn-danger mr-3" (click)="logout()">
+                Cancelar
+              </button>
+              <button type="button" class="btn btn-success" (click)="saveForm()">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer font-weight-bold">
+  <span>{{ developedBy }} </span> {{ infoVersion }}
+</footer>

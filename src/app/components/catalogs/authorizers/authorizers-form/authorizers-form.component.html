@@ -1,0 +1,45 @@
+<form #formAuthorizer="ngForm">
+
+  <div class="row">
+
+    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="processTypes">Tipo Proceso</label>
+        <ejs-dropdownlist #processTypeObj #processTypeId="ngModel" [(ngModel)]="authorizer.processTypeId"
+          id="processTypeId" name="processTypeId" [dataSource]="listProcessTypes"
+          [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringProcessTypes($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un tipo de proceso '" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(processTypeId.dirty || processTypeId.touched) && !processTypeId.valid" class="alert alert-danger">
+          <div *ngIf="processTypeId.errors?.required">
+            Tipo Proceso es requerido.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="usersSystem">Usuario Sistema</label>
+        <ejs-dropdownlist #userSystemObj #userSystemId="ngModel" [(ngModel)]="authorizer.userSystemId" id="userSystemId"
+          name="userSystemId" [dataSource]="listUsersSystem" [fields]="{ text: 'fullName', value: 'id' }"
+          (filtering)="filteringUsersSystem($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione un usuario'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(userSystemId.dirty || userSystemId.touched) && !userSystemId.valid" class="alert alert-danger">
+          <div *ngIf="userSystemId.errors?.required">
+            Usuario Sistema es requerido.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+      <div class="form-group text-center">
+        <label class="font-weight-bold" for="required">Requerido</label><br>
+        <input class="big-checkbox" type="checkbox" aria-label="Requerido" name="required"
+          [(ngModel)]="authorizer.required" #required="ngModel">
+      </div>
+    </div>
+  </div>
+
+</form>

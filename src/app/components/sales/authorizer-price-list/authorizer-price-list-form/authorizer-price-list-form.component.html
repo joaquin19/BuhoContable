@@ -1,0 +1,36 @@
+<div class="row mb-3" *ngIf="listPriceList.length > 0">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+
+    <ejs-grid #gridPriceList [dataSource]="listPriceList" [allowSelection]="false" [enableHover]="false"
+      rowHeight="20">
+      <e-columns>
+        <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+          [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format">
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group">
+      <label class="font-weight-bold" for="observation">Observaciones</label>
+      <textarea class="form-control" name="observation" id="observation" rows="3"
+        maxlength="{{ maxLengthObservations }}" [(ngModel)]="priceList.observation"
+        #observation="ngModel"></textarea>
+        <div *ngIf="submittedPriceList && (priceList.observation.length === 0 ) && (authorizationStatusId === authorizationStatusReject)"
+          class="alert alert-danger">
+          <div>
+            Observaciones es <strong>requerido al rechazar</strong>
+          </div>
+        </div>
+    </div>
+    <div class="text-right">
+      <span>
+        <strong>{{ maxLengthObservations }} </strong> /
+        {{ maxLengthObservations - priceList.observation.length }}
+      </span>
+    </div>
+  </div>
+</div>

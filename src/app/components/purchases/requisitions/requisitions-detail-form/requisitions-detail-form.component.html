@@ -1,0 +1,166 @@
+<div class="row mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-left">
+    <h2>Folio: {{ requisition.folio }} </h2>
+  </div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right">
+    <button type="button" class="btn btn-info mr-3" title="Dercargar PDF" (click)="downloadPDF()">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Descargar PDF
+    </button>
+    <button type="button" class="btn btn-info" title="Ver PDF" (click)="showPDF()">
+      <span class="material-icons md-18 align-text-bottom">picture_as_pdf</span> Ver PDF
+    </button>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="requisitionTypeName">Tipo Requisición</label>
+            <input type="text" class="form-control" name="requisitionTypeName"
+              [(ngModel)]="requisition.requisitionTypeName" #requisitionTypeName="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="dateOrder">Fecha de Pedido</label>
+            <input type="text" class="form-control" name="dateOrder" [(ngModel)]="requisition.dateOrder"
+              #dateOrder="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="supplierName">Proveedor</label>
+            <input type="text" class="form-control" name="supplierName" [(ngModel)]="requisition.supplierName"
+              #supplierName="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="plantName">Planta</label>
+            <input type="text" class="form-control" name="plantName" [(ngModel)]="requisition.plantName"
+              #plantName="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="businessUnitName">Unidad de Negocio</label>
+            <input type="text" class="form-control" name="businessUnitName" [(ngModel)]="requisition.businessUnitName"
+              #businessUnitName="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="costCenterName">Centro de Costo</label>
+            <input type="text" class="form-control" name="costCenterName" [(ngModel)]="requisition.costCenterName"
+              #costCenterName="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+          <label class="font-weight-bold">PRODUCTOS REQUERIDOS</label>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+
+          <ejs-grid #gridRequisitionDetail [dataSource]="listRequisitionDetail" [allowSelection]="false"
+            [enableHover]="false" rowHeight="20">
+            <e-columns>
+              <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+                [filter]="filterGrid" [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format"
+                [textAlign]="col.textAlign">
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12" align="right">
+          <p class="font-weight-bold m-3">
+            SUB TOTAL: {{subTotal}}
+          </p>
+        </div>
+      </div>
+      <div class="row" *ngFor="let colT of listTaxesAdded">
+        <div class="col-lg-12" align="right">
+          <p class="font-weight-bold m-3">
+            {{colT.name}}: {{colT.amount}}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12" align="right">
+          <p class="font-weight-bold m-3">
+            TOTAL: {{total}}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="card w-100" *ngIf="requisitionDocument.length > 0 && requisitionDocument[0].id != 0">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <label class="font-weight-bold">Documentos Añadidos</label>
+        <div *ngFor="let document of requisitionDocument; index as i">
+          <span class="material-icons md-28 align-text-bottom" title="Descargar Documento"
+            style="color: dodgerblue; cursor: pointer;"
+            (click)="downloadDocument(document)">vertical_align_bottom</span>
+          <span>{{document.userName}}</span>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row" *ngIf="requisitionImages.length > 0 && requisitionImages[0].id != 0">
+      <div class="col-xl-2 col-lg-2 col-md-0 col-sm-0"></div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <ngb-carousel #carousel (slide)="onSlide($event)">
+          <ng-template ngbSlide *ngFor="let img of requisitionImages; index as i" [id]="i">
+            <div class="picsum-img-wrapper">
+              <img [src]="'data:image/png;base64,'+img.imageBase64" alt="Random first slide" width="800px"
+                height="auto">
+            </div>
+            <div class="carousel-caption">
+
+            </div>
+          </ng-template>
+        </ngb-carousel>
+        <div class="row">
+          <div align="left" class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <p style="color: dodgerblue;">{{imageNameSelected}}</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-0 col-sm-0"></div>
+    </div>
+
+  </div>
+</div>

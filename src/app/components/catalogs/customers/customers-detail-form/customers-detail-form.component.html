@@ -1,0 +1,247 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<form #formCustomer="ngForm">
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+            <label class="label-detail">DATOS GENERALES</label>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="customerType">Tipo Proveedor:</label><br>
+              <label class="label-detail-result"> {{ customer.customerTypeName }} </label>
+            </div>
+          </div>
+
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="name">Nombre Comercial:</label><br>
+              <label class="label-detail-result"> {{ customer.name }} </label>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="label-detail">Datos Fiscales</h6>
+        <hr>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="rfcId">RFC:</label><br>
+              <label class="label-detail-result"> {{ customer.rfcId }} </label>
+            </div>
+          </div>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="legalName">Razón Social:</label><br>
+              <label class="label-detail-result"> {{ customer.legalName }} </label>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="label-detail">Domicilio Fiscal</h6>
+        <hr>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="street">Calle y Número:</label><br>
+              <label class="label-detail-result"> {{ customer.street }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="neighborhoodName">Colonia:</label><br>
+              <label class="label-detail-result"> {{ customer.neighborhoodName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="zipCode">C.P.:</label><br>
+              <label class="label-detail-result"> {{ customer.zipCode }} </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="country">País:</label><br>
+              <label class="label-detail-result"> {{ customer.countryName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="stateProvince">Estado:</label><br>
+              <label class="label-detail-result"> {{ customer.stateProvinceName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="city">Ciudad:</label><br>
+              <label class="label-detail-result"> {{ customer.cityName }} </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="label-detail">DATOS REPRESENTANTE LEGAL</label>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="representativeName">Nombre(s):</label><br>
+              <label class="label-detail-result"> {{ customerLegalRepresentative.firstName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="representativeLastName">Apellido(s):</label><br>
+              <label class="label-detail-result"> {{ customerLegalRepresentative.lastName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="representativeCURP">CURP:</label><br>
+              <label class="label-detail-result"> {{ customerLegalRepresentative.curpId }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="representativeTaxId">RFC:</label><br>
+              <label class="label-detail-result"> {{ customerLegalRepresentative.rfcId }} </label>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="representativeEmail">Email:</label><br>
+              <label class="label-detail-result"> {{ customerLegalRepresentative.email }} </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="label-detail">INFORMACIÓN FINANCIERA</label>
+          </div>
+        </div>
+        <br>
+        <div class="row mb-3" *ngIf="listCustomerFinancials.length > 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <ejs-grid #gridCustomerFinancials [dataSource]="listCustomerFinancials" [allowSorting]="true"
+              [filterSettings]="filterOptionsCustomerFinancial" [pageSettings]="pageSettingsCustomerFinancial"
+              [gridLines]="gridLinesCustomerFinancial" rowHeight="20">
+              <e-columns>
+                <e-column *ngFor="let col of colsCustomerFinancial" field="{{ col.field }}"
+                  headerText="{{ col.header }}" width="{{ col.width }}" [filter]="filterGridCustomerFinancial"
+                  [visible]="col.visible"></e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listCustomerFinancials.length === 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <span class="text-danger label-detail">
+              No se han agregado registros.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="label-detail">EXPEDIENTE</label>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="plant">Planta:</label><br>
+              <label class="label-detail-result"> {{ customerRecord.plantName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="customerPaymentTerm">Dias Crédito:</label><br>
+              <label class="label-detail-result"> {{ customerRecord.customerPaymentTermName }} </label>
+            </div>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="label-detail" for="notes">Notas:</label><br>
+              <label class="label-detail-result"> {{ customerRecord.notes }} </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="label-detail">CONTACTOS</label>
+          </div>
+        </div>
+        <br>
+        <div class="row mb-3" *ngIf="listCustomerContacts.length > 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <ejs-grid #gridCustomerContacts [dataSource]="listCustomerContacts" [allowSorting]="true"
+              [filterSettings]="filterOptionsCustomerContact" [pageSettings]="pageSettingsCustomerContact"
+              [gridLines]="gridLinesCustomerContact" rowHeight="20">
+              <e-columns>
+                <e-column *ngFor="let col of colsCustomerContact" field="{{ col.field }}" headerText="{{ col.header }}"
+                  width="{{ col.width }}" [filter]="filterGridCustomerContact" [visible]="col.visible"></e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listCustomerContacts.length === 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <span class="text-danger label-detail">
+              No se han agregado registros.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

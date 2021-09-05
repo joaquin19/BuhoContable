@@ -1,0 +1,65 @@
+<form #formMerchandiseReceptionDetail="ngForm">
+
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="fullName">Nombre Artículo</label>
+        <input type="text" class="form-control" name="fullName" maxlength="50"
+          [(ngModel)]="merchandiseReceptionDetail.fullName" #fullName="ngModel" readonly />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción del Artículo</label>
+        <textarea class="form-control" name="description" id="description" rows="3"
+          [(ngModel)]="merchandiseReceptionDetail.description" #description="ngModel" readonly></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="receivedQuantity">Cantidad Recibida</label>
+        <input type="text" class="form-control" name="receivedQuantity"
+          [(ngModel)]="merchandiseReceptionDetail.receivedQuantity" #receivedQuantity="ngModel" maxlength="18"
+          (blur)="blurQuantity($event)" readonly>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="newPendingQuantity">Cantidad Pendiente</label>
+        <input type="text" class="form-control" name="newPendingQuantity"
+          [(ngModel)]="merchandiseReceptionDetail.newPendingQuantity" #newPendingQuantity="ngModel" maxlength="18"
+          readonly>
+      </div>
+    </div>
+  </div>
+
+  <div class="card w-100" *ngIf="merchandiseReceptionDetail.receivedQuantity > 0 ">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="evidence">Evidencia</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="merchandiseReceptionDocument.length > 0 && merchandiseReceptionDocument[0].id != 0">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div *ngFor="let document of merchandiseReceptionDocument; index as i">
+            <span class="material-icons md-28 align-text-bottom" title="Descargar Documento"
+              style="color: dodgerblue; cursor: pointer;" (click)="downloadDocument(document)">
+              vertical_align_bottom</span>
+            <span>{{document.userName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

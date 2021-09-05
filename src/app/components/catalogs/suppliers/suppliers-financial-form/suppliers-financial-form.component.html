@@ -1,0 +1,67 @@
+<form #formSupplierFinancial="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bankAccount">No. Cuenta</label>
+        <input type="text" class="form-control" name="bankAccount" [(ngModel)]="supplierFinancial.account"
+          #bankAccount="ngModel" maxlength="18" appAutofocus>
+        <div *ngIf="(bankAccount.dirty || bankAccount.touched || submitted) && !bankAccount.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!bankAccount.errors?.required">
+            No. Cuenta es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bankKey">Clabe</label>
+        <input type="text" class="form-control" name="bankKey" [(ngModel)]="supplierFinancial.clabe" #bankKey="ngModel"
+          maxlength="18">
+        <div *ngIf="(bankKey.dirty || bankKey.touched || submitted) && !bankKey.valid" class="alert alert-danger">
+          <div *ngIf="!!bankKey.errors?.required">
+            Clabe es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bank">Banco</label>
+        <ejs-dropdownlist #bankObj #bank="ngModel" [(ngModel)]="supplierFinancial.bankId" name="bank"
+          [dataSource]="listBanks" [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBank($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un banco'" [showClearButton]="true" (change)="changeBank()" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(bank.dirty || bank.touched || submitted) && !bank.valid" class="alert alert-danger">
+          <div *ngIf="!!bank.errors?.required">
+            Banco es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="currency">Moneda</label>
+        <ejs-dropdownlist #currencyObj #currency="ngModel" [(ngModel)]="supplierFinancial.currencyId" name="currency"
+          [dataSource]="listCurrencies" [fields]="{ text: 'fullName', value: 'id' }"
+          (filtering)="filteringCurrency($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una moneda'" [showClearButton]="true"
+          (change)="changeCurrency()" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(currency.dirty || currency.touched || submitted) && !currency.valid" class="alert alert-danger">
+          <div *ngIf="currency.errors?.required">
+            Moneda es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,256 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<button type="button" class="btn btn-success mb-4 mt-2" (click)="onClickImport()"
+  *ngIf="showImport">{{buttonImport}}</button>
+
+<form class="my-3" #formProduct="ngForm" *ngIf="!changeToImport">
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="no">Número</label>
+        <input mask="0*" class="form-control" name="no" maxlength="15" [(ngModel)]="product.no" #no="ngModel"
+          [disabled]="this.action === 2" />
+        <div *ngIf="(no.dirty || no.touched || submitted) && !no.valid" class="alert alert-danger">
+          <div *ngIf="!!no.errors?.required">
+            Numero es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="productTypes">Tipo de Producto</label>
+        <ejs-dropdownlist #productTypeObj #productTypeId="ngModel" [(ngModel)]="product.productTypeId"
+          id="productTypeId" name="productTypeId" [dataSource]="listProductTypes"
+          [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringProductTypes($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un tipo de producto'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(productTypeId.dirty || productTypeId.touched || submitted) && !productTypeId.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!productTypeId.errors?.required">
+            Tipo de Producto es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="customerType">Cliente</label>
+        <ejs-dropdownlist #customerObj #customerId="ngModel" [(ngModel)]="product.customerId" id="customerId"
+          name="customerId" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione un cliente'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(customerId.dirty || customerId.touched || submitted) && !customerId.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!customerId.errors?.required">
+            Cliente es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="carModel">Car Model</label>
+        <input type="text" class="form-control" name="carModel" maxlength="30" [(ngModel)]="product.carModel"
+          #carModel="ngModel" required />
+        <div *ngIf="((carModel.dirty || carModel.touched || submitted) && !carModel.valid)" class="alert alert-danger">
+          <div *ngIf="!!carModel.errors?.required && !!partNumberCustomer.errors?.required">
+            Car Model es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="carModelDr">Car Modedl Dr</label>
+        <input type="text" class="form-control" name="carModelDr" maxlength="30" [(ngModel)]="product.carModelDr"
+          #carModelDr="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="partNumber">Numero de Parte</label>
+        <input type="text" class="form-control" name="partNumber" maxlength="50" [(ngModel)]="product.partNumber"
+          #partNumber="ngModel" required [disabled]="this.action === 2" />
+        <div *ngIf="((partNumber.dirty || partNumber.touched || submitted) && !partNumber.valid)"
+          class="alert alert-danger">
+          <div *ngIf="!!partNumber.errors?.required && !!partNumberCustomer.errors?.required">
+            Número de parte es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="partNumberCustomer">Numero de Parte del Cliente</label>
+        <input type="text" class="form-control" name="partNumberCustomer" maxlength="50" [disabled]="this.action === 2"
+          [(ngModel)]="product.partNumberCustomer" #partNumberCustomer="ngModel" required />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="productLevel">Nivel de Producto</label>
+        <ejs-dropdownlist #productLevelObj #productLevel="ngModel" [(ngModel)]="product.productLevelId"
+          id="productLevel" name="productLevel" [dataSource]="listProductLevel" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringProductLevel($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una nivel de producto'" [showClearButton]="true">
+        </ejs-dropdownlist>
+        <div *ngIf="(productLevel.dirty || productLevel.touched) && !productLevel.valid" class="alert alert-danger">
+          <div *ngIf="productLevel.errors?.required">
+            Nivel de Producto es requerido.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="component">Componente</label>
+        <input type="text" class="form-control" name="component" maxlength="50" [(ngModel)]="product.component"
+          #component="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="partName">Nombre de Parte</label>
+        <input type="text" class="form-control" name="partName" maxlength="100" [(ngModel)]="product.partName"
+          #partName="ngModel" required />
+        <div *ngIf="((partName.dirty || partName.touched || submitted) && !partName.valid)" class="alert alert-danger">
+          <div *ngIf="!!partName.errors?.required && !!partNumberCustomer.errors?.required">
+            Nombre de Parte es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="grade">Grado</label>
+        <input type="text" class="form-control" name="grade" maxlength="50" [(ngModel)]="product.grade"
+          #grade="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="msSpec">Ms. Spec.</label>
+        <input type="text" class="form-control" name="msSpec" maxlength="100" [(ngModel)]="product.msSpec"
+          #msSpec="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="supplier">Proveedor</label>
+        <input type="text" class="form-control" name="supplier" maxlength="100" [(ngModel)]="product.supplier"
+          #supplier="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="use">Uso</label>
+        <input type="text" class="form-control" name="use" maxlength="50" [(ngModel)]="product.use" #use="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="cTime">C. Time</label>
+        <input mask="0*" class="form-control" name="cTime" [(ngModel)]="product.cTime" #cTime="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="cv">C/V</label>
+        <input mask="0*" class="form-control" name="cv" maxlength="15" [(ngModel)]="product.cv" #cv="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="weight">Peso</label>
+        <input mask="0*" class="form-control" name="weight" maxlength="15" [(ngModel)]="product.weight"
+          #weight="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="actualWeight">Peso Actual</label>
+        <input mask="0*" class="form-control" name="actualWeight" maxlength="15" [(ngModel)]="product.actualWeight"
+          #actualWeight="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="ttlKg">Ttl. Kg</label>
+        <input mask="0*" class="form-control" name="ttlKg" maxlength="15" [(ngModel)]="product.ttlKg"
+          #ttlKg="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitsMeasure">Unidad de Medida</label>
+        <ejs-dropdownlist #unitsMeasureObj #unitsMeasure="ngModel" [(ngModel)]="product.unitMeasureId" id="unitsMeasure"
+          name="unitsMeasure" [dataSource]="listUnitsMeasure" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringUnitsMeasure($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una unidad de medida'" [showClearButton]="true">
+        </ejs-dropdownlist>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitSale">Unidad de Venta</label>
+        <input mask="0*" class="form-control" name="unitSale" maxlength="15" [(ngModel)]="product.unitSale"
+          #unitSale="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="option">Opciones</label>
+        <input mask="0*" class="form-control" name="option" maxlength="15" [(ngModel)]="product.option"
+          #option="ngModel" />
+      </div>
+    </div>
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="remark">Observaciones</label>
+        <input type="text" class="form-control" name="remark" maxlength="100" [(ngModel)]="product.remark"
+          #remark="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+      <button type="button" class="btn btn-danger mr-3" [routerLink]="pageRedirect">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-success" (click)="saveForm()">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<app-products-import *ngIf="changeToImport" #productsImport [listProductTypes]="listProductTypes"
+  [listUnitsMeasure]="listUnitsMeasure" [listCustomers]="listCustomers" [listProductLevel]="listProductLevel">
+</app-products-import>

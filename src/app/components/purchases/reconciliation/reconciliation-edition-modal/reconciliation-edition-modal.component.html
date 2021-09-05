@@ -1,0 +1,6 @@
+<app-modal-detail-form #modalConciliationEditionForm [title]="title" (closeForm)="closeHandled()">
+  <app-reconciliation-edition-form #reconciliationEditionForm [action]="action" [item]="item">
+  </app-reconciliation-edition-form>
+  <app-audit-trail-form #auditTrailForm [processType]="processType" [item]="item">
+  </app-audit-trail-form> 
+</app-modal-detail-form>

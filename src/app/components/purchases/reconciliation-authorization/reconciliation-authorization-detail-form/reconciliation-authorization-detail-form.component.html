@@ -1,0 +1,136 @@
+<div class="row mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-left">
+    <h2>Factura: {{ invoice.folio }} </h2>
+  </div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right">
+    <button type="button" class="btn btn-info mr-3" title="Dercargar PDF" (click)="downloadPDF()">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Descargar PDF
+    </button>
+    <button type="button" class="btn btn-info" title="Ver PDF" (click)="showPDF()">
+      <span class="material-icons md-18 align-text-bottom">picture_as_pdf</span> Ver PDF
+    </button>
+  </div>
+</div>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="supplierName">Revisó</label>
+            <input type="text" class="form-control" name="supplierName" maxlength="50"
+              [(ngModel)]="invoice.supplierName" #supplierName="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="approved">Aprobó</label>
+            <input type="text" class="form-control" name="approved" id="approved" maxlength="50"
+              [(ngModel)]="invoice.approved" #approved="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="supplierName">Proveedor</label>
+            <input type="text" class="form-control" name="supplierName" maxlength="50"
+              [(ngModel)]="invoice.supplierName" #supplierName="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="supplierContact">Contacto</label>
+            <input type="text" class="form-control" name="supplierContact" id="supplierContact" maxlength="50"
+              [(ngModel)]="invoice.supplierContact" #supplierContact="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="supplierPhone">Telefono</label>
+            <input type="text" class="form-control" name="supplierPhone" maxlength="50"
+              [(ngModel)]="invoice.supplierPhone" #supplierPhone="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="estimatedDate">Fecha a Recibir</label>
+            <input type="text" class="form-control" name="estimatedDate" id="estimatedDate" maxlength="50"
+              [(ngModel)]="invoice.estimatedDate" #estimatedDate="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="paymentType">Condiciones de Pago</label>
+            <input type="text" class="form-control" name="paymentType" maxlength="50"
+              [(ngModel)]="invoice.paymentType" #paymentType="ngModel" disabled />
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="paymentTypeName">Tipo de Pago</label>
+            <input type="text" class="form-control" name="paymentTypeName" id="paymentTypeName" maxlength="50"
+              [(ngModel)]="invoice.paymentTypeName" #paymentTypeName="ngModel" disabled />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3">
+  
+  <div class="col-lg-6 col-sm-6 col-md-6">
+    <ejs-grid #gridPurchaseOrders [dataSource]="listPurchaseOrderDetail" [allowSelection]="false"
+      [enableHover]="false" rowHeight="20">
+      <e-columns>
+        <e-column headerText='PO' ></e-column>
+        <e-column *ngFor="let col of colsPO" [field]="col.field" [headerText]="col.header" [width]="col.width"
+          [filter]="filterGrid" [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format"
+          [textAlign]="col.textAlign">
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+
+  <div class="col-lg-6 col-sm-6 col-md-6">
+    <ejs-grid #gridInvoices [dataSource]="listInvoiceDetail" [allowSelection]="false"
+      [enableHover]="false" rowHeight="20">
+      <e-columns>
+        <e-column headerText='FACTURACIÓN' [columns]='cols'></e-column>
+        <!-- <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.headerText" [width]="col.width"
+          [filter]="filterGrid" [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format"
+          [textAlign]="col.textAlign">
+        </e-column> -->
+      </e-columns>
+    </ejs-grid>
+  </div>
+
+</div>
+<br>
+
+<div class="row mb-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group">
+      <label class="font-weight-bold" for="discrepancy">Discrepancia</label>
+      <input type="text" class="form-control" name="discrepancy" maxlength="255"
+        [(ngModel)]="invoice.discrepancy" #discrepancy="ngModel" disabled />
+    </div>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group">
+      <label class="font-weight-bold" for="justification">Justificación</label>
+      <input type="text" class="form-control" name="justification" maxlength="255"
+        [(ngModel)]="invoice.justification" #justification="ngModel" disabled />
+    </div>
+  </div>
+</div>

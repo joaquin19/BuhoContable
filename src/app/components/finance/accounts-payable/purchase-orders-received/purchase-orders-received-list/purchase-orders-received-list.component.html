@@ -1,0 +1,49 @@
+<div class="row my-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-left">
+    <button type="button" class="btn btn-info mr-3" title="Actualizar" (click)="getPurchaseOrders()">
+      <span class="material-icons md-18 align-text-bottom">refresh</span> Actualizar
+    </button>
+    <button type="button" class="btn btn-info" title="Excel" (click)="exportToExcelList();"
+      *ngIf="listPurchaseOrdersReceived.length > 0">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Excel
+    </button>
+  </div>
+</div>
+
+<div class="row mb-3" *ngIf="listPurchaseOrdersReceived.length > 0">
+  <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+    <ejs-grid #gridPurchaseOrdersReceived [dataSource]="listPurchaseOrdersReceived" [allowPaging]="true"
+      [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptions" [pageSettings]="pageSettings"
+      [gridLines]="gridLines" rowHeight="20" [allowExcelExport]='true'>
+      <e-columns>
+        <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+          [filter]="filterGrid" [visible]="col.visible" [format]="col.format" clipMode='EllipsisWithTooltip'>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Detalle"
+              (click)="openModal(actionForm.ReadOnly, data)">
+              <span class="material-icons md-18 align-text-bottom">description</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Editar"
+              (click)="openModalEdit(actionForm.Edit, data)">
+              <span class="material-icons md-18 align-text-bottom">edit</span>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>
+
+<div class="row" *ngIf="listPurchaseOrdersReceived.length === 0">
+  <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+    <span class="text-danger font-weight-bold">
+      No se encontraron registros.
+    </span>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<form #formExchangeRate="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="exchangeRateValue">Tipo de Cambio</label>
+        <input type="text" class="form-control" name="exchangeRateValue" maxlength="50" [(ngModel)]="exchangeRate.exchangeRateValue" #exchangeRateValue="ngModel"
+          required />
+        <div *ngIf="(exchangeRateValue.dirty || exchangeRateValue.touched || submitted) && !exchangeRateValue.valid" class="alert alert-danger">
+          <div *ngIf="!!exchangeRateValue.errors?.required">
+            Tipo de Cambio es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="date">Fecha de Cambio</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="changeDay" [(ngModel)]="changeDay"
+            ngbDatepicker #d="ngbDatepicker" required>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <span class="material-icons md-18 align-text-bottom">event</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="exchangeRateValue">Moneda</label>
+        <ejs-dropdownlist #currencyObj #currencyId="ngModel" [(ngModel)]="exchangeRate.currencyId"
+        id="currencyId" name="currencyId" [dataSource]="listCurrencies"
+        [fields]="{ text: 'fullName', value: 'id' }" (filtering)="filteringCurrencies($event)"
+        [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+        [placeholder]="'Seleccione un tipo de moneda'" [showClearButton]="true" required>
+      </ejs-dropdownlist>
+      <div *ngIf="(currencyId.dirty || currencyId.touched || submitted) && !currencyId.valid" class="alert alert-danger">
+        <div *ngIf="currencyId.errors?.required">
+          Moneda es requerido.
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,15 @@
+<nav id="header" class="navbar fixed-top p-0 shadow">
+  <div class="align-content-lg-start align-content-md-start align-content-sm-start">
+    <button class="btn mx-3" (click)="toggleSidebar()">
+      <span class="material-icons md-28">menu</span>
+    </button>
+    <a [routerLink]="['/']">
+      <img class="navbar-brand logo-header" src="assets/images/KOPS_Logo.png">
+    </a>
+  </div>
+  <ul class="navbar-nav px-3 d-flex flex-row-reverse bd-highlight">
+    <li class="nav-item p-2">
+      <app-logout></app-logout>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,5 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-purchase-orders-received-edition-form #purchaseOrdersReceivedEditionForm [action]="action" [item]="item"
+    (saveItem)="saveFormHandled($event)">
+  </app-purchase-orders-received-edition-form>
+</app-modal-form>

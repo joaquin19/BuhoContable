@@ -1,0 +1,22 @@
+<div class="row" *ngIf="item.createdOn != ''">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+
+    <div class="container">
+      <h3 class="card-title">Bitacora de Actualización</h3>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="main-timeline">
+                  <a *ngFor="let balanceMovement of listBalanceMovement; " class="timeline col-lg-12 col-sm-12 col-md-12" >
+                    <div class="timeline-icon"><span class="material-icons md-18 align-text-bottom">add</span></div>
+                    <div class="timeline-content">
+                      <h3 class="title">{{ balanceMovement.createBy }}</h3>
+                        <p class="description">
+                          <b>Fecha:</b> {{ balanceMovement.createdOn }}<br>
+                        </p>
+                    </div>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

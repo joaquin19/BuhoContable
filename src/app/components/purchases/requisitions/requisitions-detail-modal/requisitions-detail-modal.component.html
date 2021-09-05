@@ -1,0 +1,6 @@
+<app-modal-detail-form #modalDetailForm [title]="title" (closeForm)="closeHandled()">
+  <app-requisitions-detail-form #requisitionsDetailForm [action]="action" [item]="item">
+  </app-requisitions-detail-form>
+   <app-audit-trail-form #auditTrailForm [processType]="processType" [item]="item">
+   </app-audit-trail-form> 
+</app-modal-detail-form>

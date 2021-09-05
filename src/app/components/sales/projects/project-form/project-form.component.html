@@ -1,0 +1,69 @@
+<form #formProject="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="name">Proyecto</label>
+        <input type="text" class="form-control" name="name" maxlength="100" [(ngModel)]="project.name"
+          #name="ngModel" />
+        <div *ngIf="(name.dirty || name.touched || submitted) && !name.valid" class="alert alert-danger">
+          <div *ngIf="!!name.errors?.required">
+            Projecto es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="startDate">Fecha de Inicio</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" [(ngModel)]="startDate" ngbDatepicker
+            #sd="ngbDatepicker" readonly required (dateSelect)="dateSelectStart()">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()" type="button">
+              <span class="material-icons md-18 align-text-bottom">event</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="endDate">Fecha de Fin</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" [(ngModel)]="endDate" ngbDatepicker
+            #ed="ngbDatepicker" readonly required (dateSelect)="dateSelectEnd()">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="ed.toggle()" type="button">
+              <span class="material-icons md-18 align-text-bottom">event</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="customer">Cliente</label>
+        <ejs-dropdownlist #customerObj #customerId="ngModel" [(ngModel)]="project.customerId" id="customerId"
+          name="customerId" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione un Cliente'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(customerId.dirty || customerId.touched || submitted) && !customerId.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!customerId.errors?.required">
+            Cliente es <strong>requerido *</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

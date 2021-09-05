@@ -1,0 +1,30 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<!-- <label class="label-detail">Selección de Órdenes de Compra:</label> -->
+<br>
+<div class="row mb-3">
+  <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+    <ejs-grid #gridPurchaseOrders [dataSource]="listPurchaseOrders" [allowPaging]="false" [allowSorting]="true"
+      [allowFiltering]="false" [filterSettings]="filterOptions" [pageSettings]="pageSettings" [gridLines]="gridLines"
+      rowHeight="20" [allowExcelExport]="true"  [allowSelection]="true" height="350">
+      <e-columns>
+        <e-column *ngFor="let col of colsPurchaseOrders" [field]="col.field" [headerText]="col.header" [width]="col.width"
+          [filter]="filterGrid" [visible]="col.visible" [format]="col.format" clipMode='EllipsisWithTooltip'>
+        </e-column>
+        <e-column type='checkbox' [allowFiltering]='false' [allowSorting]='false' width='60'></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>
+<br>
+
+<div class="row mt-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+    <button type="button" class="btn btn-danger mr-3" routerLink="/purchases/reconciliation">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-success" (click)="saveForm()">
+      Conciliar Selecionado
+    </button>
+  </div>
+</div>

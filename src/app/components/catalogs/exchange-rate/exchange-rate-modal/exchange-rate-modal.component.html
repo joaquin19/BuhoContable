@@ -1,0 +1,4 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-exchange-rate-form #exchangeRateForm [action]="action" [item]="item" (saveItem)="saveFormHandled($event)">
+  </app-exchange-rate-form>
+</app-modal-form>

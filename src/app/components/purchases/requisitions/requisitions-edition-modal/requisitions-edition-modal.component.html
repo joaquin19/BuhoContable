@@ -1,0 +1,5 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-requisitions-edition-form #requisitionsEditionForm [action]="action" [item]="item"
+  [listItemAdded]="listItemAdded" (saveItem)="saveFormHandled($event)">
+  </app-requisitions-edition-form>
+</app-modal-form>

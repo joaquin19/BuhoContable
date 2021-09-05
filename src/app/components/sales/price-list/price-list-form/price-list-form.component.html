@@ -1,0 +1,287 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+<form #formPriceList="ngForm">
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Tipo de Lista de Precio</label>
+              <div class="form-control">
+                <label class="radio-inline mr-3">
+                  <input type="radio" name="priceType" [value]="priceTypeCustomer" #priceType="ngModel"
+                    [(ngModel)]="priceList.priceTypeId" (change)="changeOrderType()" [attr.disabled]="isReadOnly">
+                  Cliente
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="priceType" [value]="priceTypeProject" #priceType="ngModel"
+                    [(ngModel)]="priceList.priceTypeId" (change)="changeOrderType()" [attr.disabled]="isReadOnly">
+                  Proyecto
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="priceList.priceTypeId === priceTypeCustomer">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Cliente</label>
+              <ejs-dropdownlist #customerObj #customer="ngModel" [(ngModel)]="priceList.customerId" id="customer"
+                name="customer" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Cliente'" [showClearButton]="true" required
+                (change)="changeCustomer()" [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(customer.dirty || customer.touched || submitted) && !customer.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!customer.errors?.required">
+                  Cliente es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="priceList.priceTypeId === priceTypeProject">
+            <div class="form-group">
+              <label class="font-weight-bold" for="project">Proyecto</label>
+              <ejs-dropdownlist #projectObj #project="ngModel" [(ngModel)]="priceList.projectId" id="project"
+                name="project" [dataSource]="listProjects" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringProject($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Proyecto'" [showClearButton]="true" required
+                (change)="changeProject()" [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(project.dirty || project.touched || submitted) && !project.valid" class="alert alert-danger">
+                <div *ngIf="!!project.errors?.required">
+                  Proyecto es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="currency">Moneda</label>
+              <ejs-dropdownlist #currencyObj #currency="ngModel" [(ngModel)]="priceList.currencyId" id="currencyId"
+                name="currencyId" [dataSource]="listCurrencies" [fields]="{ text: 'fullName', value: 'id' }"
+                (filtering)="filteringCurrencies($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de moneda'" [showClearButton]="true" required
+                [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(currency.dirty || currency.touched || submitted) && !currency.valid"
+                class="alert alert-danger">
+                <div *ngIf="currency.errors?.required">
+                  Moneda es requerida.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="name">Nombre de la Lista de Precio</label>
+              <input type="text" class="form-control" name="name" maxlength="100" [(ngModel)]="priceList.name"
+                #name="ngModel" required />
+              <div *ngIf="(name.dirty || name.touched || submitted) && !name.valid" class="alert alert-danger">
+                <div *ngIf="name.errors?.required">
+                  Nombre de la Lista de Precio es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="startDate">Fecha de Inicio</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" #startD name="startDate" [(ngModel)]="startDate"
+                  ngbDatepicker #sd="ngbDatepicker" readonly required (dateSelect)="dateSelectStart()">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()" type="button">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="endDate">Fecha de Fin</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" #endD name="endDate" [(ngModel)]="endDate"
+                  ngbDatepicker #ed="ngbDatepicker" readonly required (dateSelect)="dateSelectEnd()">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="ed.toggle()" type="button">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="notes">Notas</label>
+              <textarea class="form-control" name="notes" id="notes" rows="3" [maxlength]="maxLengthNotes"
+                [(ngModel)]="priceList.notes" #notes="ngModel"></textarea>
+            </div>
+            <div class="text-right">
+              <span>
+                <strong>{{ maxLengthNotes }} </strong> / {{ (maxLengthNotes - priceList.notes.length) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3" [class.d-block]="showImport" [class.d-none]="!showImport">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="productTypeName">Importar Lista de Precios</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button type="button" class="btn btn-secondary btn-sm" title="Descargar Plantilla"
+                    (click)="downloadTemplate()">
+                    <span class="material-icons md-18 align-text-bottom">cloud_download</span>
+                  </button>
+                </div>
+                <div class="input-group-prepend">
+                  <button type="button" class="btn btn-info" (click)="fileUploadPriceListImported.click()">
+                    Selección de archivo...
+                  </button>
+                </div>
+                <input type="text" class="form-control" name="fileNamePriceListImported"
+                  [(ngModel)]="fileNamePriceListImported" #fileNameImported="ngModel"
+                  (click)="fileUploadPriceListImported.click()" readonly>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-danger btn-sm" title="Eliminar" (click)="clearFile()">
+                    <span class="material-icons md-18 align-text-bottom">delete</span>
+                  </button>
+                </div>
+              </div>
+              <input type="file" id="fileUploadPriceListImported" #fileUploadPriceListImported class="d-none"
+                (change)="onChange($event)" [accept]="typesFiles" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="alert alert-danger" *ngIf="errorsCount > 0">
+              <span class="text-danger font-weight-bold">
+                ** Se encontraron registros con errores. Favor de validar los registros y vuelva a subir el archivo.
+              </span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col" *ngFor="let column of columnsHeader">
+                      <div class="{{ column.classStyle }}">{{ column.text }}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listPriceTable; let i = index" [ngClass]="{'activeRow': rowSelected === i}"
+                    (click)="selectItem(i)" (dblclick)="deselectItem(i)">
+                    <td>
+                      <span>{{ item.no }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.saleType }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.carModel }}</span>
+                      <br>
+                      <span class="text-danger">{{ item?.carModelError }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.carModelDr }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.partNumber }}</span>
+                      <br>
+                      <span class="text-danger">{{ item?.partNumberError }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.partNumberCustomer }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.component }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.partName }}</span>
+                      <br>
+                      <span class="text-danger">{{ item?.partNameError }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.material }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.unit }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.us }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.option }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.taxName }}</span>
+                      <br>
+                      <span class="text-danger">{{ item?.priceError }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.salePrice }}</span>
+                      <br>
+                      <span class="text-danger">{{ item?.salePriceError }}</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="listPriceTable.length === 0">
+                    <td colspan="6">
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+                          <span class="text-danger font-weight-bold">
+                            No se encontraron registros.
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row" *ngIf="listPriceTable.length > 0">
+                <ngb-pagination class="mx-4" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                  [boundaryLinks]="true" [maxSize]="10" (pageChange)="refreshItems()">
+                </ngb-pagination>
+
+                <select class="custom-select wf-auto" name="pageSize" #pageS="ngModel" [(ngModel)]="pageSize"
+                  (ngModelChange)="refreshItems()">
+                  <option [value]="itemPage" *ngFor="let itemPage of itemsPage">{{ itemPage }} items por página</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" [routerLink]="pageRedirect">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

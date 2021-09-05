@@ -1,0 +1,16 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<ngb-tabset #tabset="ngbTabset" justify="start" type="tabs" orientation="horizontal" activeId="tab-1">
+  <ngb-tab id="tab-1">
+    <ng-template ngbTabTitle><strong>Ordenes de Compra Nacionales</strong></ng-template>
+    <ng-template ngbTabContent>
+      <app-purchase-orders-received></app-purchase-orders-received>
+    </ng-template>
+  </ngb-tab>
+  <!-- <ngb-tab id="tab-2">
+    <ng-template ngbTabTitle><strong>Pedimentos</strong></ng-template>
+    <ng-template ngbTabContent>
+      <app-import-pediments></app-import-pediments>
+    </ng-template>
+  </ngb-tab> -->
+</ngb-tabset>

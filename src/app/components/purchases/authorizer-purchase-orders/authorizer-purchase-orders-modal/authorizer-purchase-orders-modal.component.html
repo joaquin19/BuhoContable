@@ -1,0 +1,6 @@
+<app-modal-authorization-form #modalAuthorizationForm [title]="title" (closeAuthorizationForm)="closeHandled()"
+  (authorizeModalAuthorizationForm)="authorizeHandled()" (rejectModalAuthorizationForm)="rejectHandled()">
+  <app-authorizer-purchase-orders-form #authorizerPurchaseOrdersForm [action]="action" [items]="items"
+    (saveItem)="saveFormHandled($event)">
+  </app-authorizer-purchase-orders-form>
+</app-modal-authorization-form>

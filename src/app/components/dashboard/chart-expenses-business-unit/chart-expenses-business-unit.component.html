@@ -1,0 +1,23 @@
+<ejs-chart [title]='title' [primaryXAxis]="xAxis" [primaryYAxis]="yAxis" [tooltip]='tooltip'>
+  <e-series-collection>
+    <e-series [dataSource]='data' type='Column' xName='month' yName='amount' name='Administrativo (General)'
+      [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data1' type='Column' xName='month' yName='amount' name='Administrativo (Service)'
+      [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data2' type='Column' xName='month' yName='amount' name='Venta' [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data3' type='Column' xName='month' yName='amount' name='Produccion' [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data4' type='Column' xName='month' yName='amount' name='No deducible' [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data5' type='Column' xName='month' yName='amount' name='Materia prima (local)'
+      [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data6' type='Column' xName='month' yName='amount' name='Aduana' [marker]='marker'>
+    </e-series>
+    <e-series [dataSource]='data7' type='Column' xName='month' yName='amount' name='Activo fijo' [marker]='marker'>
+    </e-series>
+  </e-series-collection>
+</ejs-chart>

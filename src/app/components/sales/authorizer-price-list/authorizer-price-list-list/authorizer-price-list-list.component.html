@@ -1,0 +1,67 @@
+<div class="row mb-3">
+  <div class="col-lg-6 col-sm-6 col-md-6 text-left">
+    <button type="button" class="btn btn-info mr-3" title="Actualizar" (click)="getAuthorizationPriceList();">
+      <span class="material-icons md-18 align-text-bottom">refresh</span> Actualizar
+    </button>
+    <button type="button" class="btn btn-info" title="Exportar Excel" (click)="exportToExcelList();"
+      *ngIf="listPriceList.length > 0">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Excel
+    </button>
+  </div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-right">
+    <button type="button" class="btn btn-success" (click)="openModalAuthorization(actionForm.None)"
+      *ngIf="listPriceList.length > 0">
+      Procesar Seleccionadas
+    </button>
+  </div>
+</div>
+
+<div class="row mb-3" *ngIf="listPriceList.length > 0">
+  <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+
+    <ejs-grid #gridPriceList [dataSource]="listPriceList" [allowPaging]="true" [allowSorting]="true"
+      [allowFiltering]="true" [filterSettings]="filterOptions" [pageSettings]="pageSettings" [allowSelection]="true"
+      [selectionSettings]="selectOptions" [enableHover]="true" [editSettings]='editSettings' rowHeight="20"
+      row-selected="rowSelected" [allowExcelExport]="true">
+      <e-columns>
+        <e-column field='c' type='checkbox' [allowFiltering]='false' [allowSorting]='false' width='60'></e-column>
+        <e-column *ngFor="let col of cols" field="{{ col.field }}" headerText="{{ col.header }}" width="{{ col.width }}"
+          [filter]="filterGrid" [visible]="col.visible" [isPrimaryKey]="col.isPrimaryKey" clipMode='EllipsisWithTooltip'
+          [format]="col.format">
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" style="padding: unset;" headerTextAlign="center"
+          textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Detalle"
+              (click)="openModal(actionForm.None, data)">
+              <span class="material-icons md-18 align-text-bottom">description</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Autorizar" (click)="confirmAuthorize(data)">
+              <span class="material-icons md-18 align-text-bottom">done</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Rechazar" (click)="confirmReject(data)">
+              <span class="material-icons md-18 align-text-bottom">close</span>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+
+  </div>
+</div>
+
+<div class="row" *ngIf="listPriceList.length === 0">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+    <span class="text-danger font-weight-bold">
+      No se encontraron registros.
+    </span>
+  </div>
+</div>

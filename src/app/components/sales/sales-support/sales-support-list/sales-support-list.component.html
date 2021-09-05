@@ -1,0 +1,60 @@
+<div class="row mb-3">
+  <div class="col-lg-6 col-sm-6 col-md-6 text-left">
+    <button type="button" class="btn btn-info mr-3" title="Actualizar" (click)="getSalesSupport()">
+      <span class="material-icons md-18 align-text-bottom">refresh</span> Actualizar
+    </button>
+    <button type="button" class="btn btn-info" title="Exportar Excel" (click)="exportToExcelList();"
+      *ngIf="listSalesSupport.length > 0">
+      <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Excel
+    </button>
+  </div>
+  <div class="col-lg-6 col-sm-6 col-md-6 text-right">
+    <button type="button" class="btn btn-info" title="Nuevo" routerLink="addSalesSupport">
+      <span class="material-icons md-18 align-text-bottom">add</span> Nuevo
+    </button>
+  </div>
+</div>
+
+<div class="row mb-3" *ngIf="listSalesSupport.length > 0">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+    <ejs-grid #gridSalesSupport [dataSource]="listSalesSupport" [allowPaging]="true" [allowSorting]="true"
+      [allowFiltering]="true" [filterSettings]="filterOptions" [pageSettings]="pageSettings" [gridLines]="gridLines"
+      rowHeight="20">
+      <e-columns>
+        <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+          [filter]="filterGrid" [visible]="col.visible">
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Detalle"
+              (click)="openModal(actionForm.None, data)">
+              <span class="material-icons md-18 align-text-bottom">description</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Editar" routerLink="editSalesSupport/{{ data.id }}">
+              <span class="material-icons md-18 align-text-bottom">edit</span>
+            </button>
+          </ng-template>
+        </e-column>
+        <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+          <ng-template #template let-data>
+            <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="confirmDelete(data)">
+              <span class="material-icons md-18 align-text-bottom">delete</span>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>
+
+<div class="row" *ngIf="listSalesSupport.length === 0">
+  <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+    <span class="text-danger font-weight-bold">
+      No se encontraron registros.
+    </span>
+  </div>
+</div>

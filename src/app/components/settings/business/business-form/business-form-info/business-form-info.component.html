@@ -1,0 +1,98 @@
+<form class="my-3" #formBusinessAditionalInfo="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="comercialName">Nombre Comercial</label>
+        <input mask="A*" class="form-control" name="comercialName" maxlength="13" [(ngModel)]="aditionalInfo.comercialName"
+              [disabled]="this.action === 2" #comercialName="ngModel" required/>
+        <div *ngIf="(comercialName.dirty || comercialName.touched || submitted) && !comercialName.valid" class="alert alert-danger">
+          <div *ngIf="!!comercialName.errors?.required">
+            Nombre Comercial es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="name">Nombre Corto</label>
+        <input mask="A*" class="form-control" name="name" maxlength="13" [(ngModel)]="aditionalInfo.name"
+               [disabled]="this.action === 2" #name="ngModel"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone1">Telefono de contacto</label>
+        <input mask="A*" class="form-control" name="phone1" maxlength="13" [(ngModel)]="aditionalInfo.phone1"
+               [disabled]="this.action === 2" #phone1="ngModel" required/>
+        <div *ngIf="(phone1.dirty || phone1.touched || submitted) && !phone1.valid" class="alert alert-danger">
+          <div *ngIf="!!phone1.errors?.required">
+            Telefono de contacto es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone2">Telefono de contacto 2</label>
+        <input mask="A*" class="form-control" name="phone2" maxlength="13" [(ngModel)]="aditionalInfo.phone2"
+               [disabled]="this.action === 2" #phone2="ngModel"/>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone3">Telefono de contacto 3</label>
+        <input mask="A*" class="form-control" name="phone3" maxlength="13" [(ngModel)]="aditionalInfo.phone3"
+               [disabled]="this.action === 2" #phone3="ngModel"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Correo Electrónico</label>
+        <input mask="A*" class="form-control" name="email" maxlength="13" [(ngModel)]="aditionalInfo.email"
+               [disabled]="this.action === 2" #email="ngModel" required/>
+        <div *ngIf="(email.dirty || email.touched || submitted) && !email.valid" class="alert alert-danger">
+          <div *ngIf="!!email.errors?.required">
+            Correo Electronico es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group">
+      <label class="font-weight-bold" for="invoiceLogo">Logo para Facturas</label>
+      <div class="form-row">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12">
+          <input type="text" class="form-control" name="invoiceLogo"
+            [(ngModel)]="aditionalInfo.invoiceLogo" #invoiceLogo="ngModel" readonly>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+          <button type="button" class="btn btn-info" (click)="fileUploadInvoiceLogo.click()">
+            Selección de archivo...
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileUploadInvoiceLogo" #fileUploadInvoiceLogo class="d-none"
+        (change)="invoiceLogoSelect(invoiceLogoDocument.id, $event)"
+        [accept]="invoiceLogoDocument.allowedExtensions" />
+      <div *ngIf="(invoiceLogo.dirty || invoiceLogo.touched || submitted) && !invoiceLogo.valid"
+        class="alert alert-danger">
+        <div *ngIf="!!invoiceLogo.errors?.required">
+          Logo para Facturas es <strong>requerido</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

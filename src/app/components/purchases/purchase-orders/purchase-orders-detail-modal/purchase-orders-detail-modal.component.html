@@ -1,0 +1,6 @@
+<app-modal-detail-form #modalPurchaseOrdersDetailForm [title]="title" (closeForm)="closeHandled()">
+  <app-purchase-orders-detail-form #purchaseOrdersDetailForm [action]="action" [item]="item">
+  </app-purchase-orders-detail-form>
+  <app-audit-trail-form #auditTrailForm [processType]="processType" [item]="item">
+  </app-audit-trail-form> 
+</app-modal-detail-form>

@@ -1,0 +1,532 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <form #formSupplier="ngForm">
+
+        <div class="row mb-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-info mr-3" title="Ver todos" (click)="accSupplier.expandAll()">
+              <span class="material-icons md-18 align-text-bottom">expand_more</span> Ver todos
+            </button>
+            <button type="button" class="btn btn-info" title="Ocultar todos" (click)="accSupplier.collapseAll()">
+              <span class="material-icons md-18 align-text-bottom">expand_less</span> Ocultar todos
+            </button>
+          </div>
+        </div>
+
+        <ngb-accordion id="accSupplier" #accSupplier="ngbAccordion" [destroyOnHide]="false" [closeOthers]="false"
+          activeIds="static-1">
+
+          <ngb-panel id="static-1">
+            <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                <button ngbPanelToggle class="btn btn-link container-fluid text-left pl-0 font-weight-bold">
+                  DATOS GENERALES
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="supplierType">Tipo proveedor</label>
+                    <ejs-dropdownlist #supplierTypeObj #supplierType="ngModel" [(ngModel)]="supplier.supplierTypeId"
+                      name="supplierType" [dataSource]="listSupplierType" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringSupplierType($event)" [filterBarPlaceholder]="'Buscar'"
+                      [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de proveedor'"
+                      [showClearButton]="true" required>
+                    </ejs-dropdownlist>
+                    <div *ngIf="(supplierType.dirty || supplierType.touched || submitted) && !supplierType.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!supplierType.errors?.required">
+                        Tipo proveedor es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="name">Nombre comercial</label>
+                    <input type="text" class="form-control" name="name" [(ngModel)]="supplier.name" #name="ngModel"
+                      maxlength="100" required>
+                    <div *ngIf="(name.dirty || name.touched || submitted) && !name.valid" class="alert alert-danger">
+                      <div *ngIf="!!name.errors?.required">
+                        Nombre comercial es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h6 class="font-weight-bold">Datos Fiscales</h6>
+              <hr>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="rfcId">RFC</label>
+                    <input type="text" class="form-control" name="rfcId" [(ngModel)]="supplier.rfcId" #rfcId="ngModel"
+                      maxlength="13"
+                      pattern="[A-Z&Ñ]{3,4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]"
+                      (ngModelChange)="supplier.rfcId=$event.toUpperCase()" required>
+                    <div *ngIf="(rfcId.dirty || rfcId.touched || submitted) && !rfcId.valid" class="alert alert-danger">
+                      <div *ngIf="!!rfcId.errors?.required">
+                        RFC es <strong>requerido</strong>
+                      </div>
+                      <div *ngIf="!!rfcId.errors?.pattern">
+                        El formato del RFC es <strong>inválido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="legalName">Razón Social</label>
+                    <input type="text" class="form-control" name="legalName" [(ngModel)]="supplier.legalName"
+                      #legalName="ngModel" maxlength="255" required>
+                    <div *ngIf="(legalName.dirty || legalName.touched || submitted) && !legalName.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!legalName.errors?.required">
+                        Razón Social es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h6 class="font-weight-bold">Domicilio Fiscal</h6>
+              <hr>
+
+              <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="street">Calle y número</label>
+                    <input type="text" class="form-control" name="street" [(ngModel)]="supplier.street"
+                      #street="ngModel" maxlength="150">
+                    <div *ngIf="(street.dirty || street.touched || submitted) && !street.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!street.errors?.required">
+                        Calle y número es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="neighborhoodName">Colonia</label>
+                    <input type="text" class="form-control" name="neighborhoodName"
+                      [(ngModel)]="supplier.neighborhoodName" #neighborhoodName="ngModel" maxlength="50">
+                    <div
+                      *ngIf="(neighborhoodName.dirty || neighborhoodName.touched || submitted) && !neighborhoodName.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!neighborhoodName.errors?.required">
+                        Colonia es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="zipCode">C.P.</label>
+                    <input type="text" class="form-control" name="zipCode" [(ngModel)]="supplier.zipCode"
+                      #zipCode="ngModel" maxlength="50">
+                    <div *ngIf="(zipCode.dirty || zipCode.touched || submitted) && !zipCode.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!zipCode.errors?.required">
+                        C.P. es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="country">País</label>
+                    <ejs-dropdownlist #countryObj #country="ngModel" [(ngModel)]="supplier.countryId" name="country"
+                      [dataSource]="listCountries" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringCountry($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                      [ignoreAccent]="true" [placeholder]="'Seleccione una moneda'" [showClearButton]="true"
+                      (change)="changeCountry()">
+                    </ejs-dropdownlist>
+                    <div *ngIf="(country.dirty || country.touched || submitted) && !country.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!country.errors?.required">
+                        País es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="stateProvince">Estado</label>
+                    <ejs-dropdownlist #stateProvinceObj #stateProvince="ngModel" [(ngModel)]="supplier.stateProvinceId"
+                      name="stateProvince" [dataSource]="listStatesProvinces" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringStatesProvinces($event)" [filterBarPlaceholder]="'Buscar'"
+                      [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un estado'"
+                      [showClearButton]="true" (change)="changeStatesProvinces()">
+                    </ejs-dropdownlist>
+                    <div *ngIf="(stateProvince.dirty || stateProvince.touched || submitted) && !stateProvince.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!stateProvince.errors?.required">
+                        Estado es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="city">Ciudad</label>
+                    <ejs-dropdownlist #cityObj #city="ngModel" [(ngModel)]="supplier.cityId" name="city"
+                      [dataSource]="listCities" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringCities($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                      [ignoreAccent]="true" [placeholder]="'Seleccione una ciudad'" [showClearButton]="true">
+                    </ejs-dropdownlist>
+                    <div *ngIf="(city.dirty || city.touched || submitted) && !city.valid" class="alert alert-danger">
+                      <div *ngIf="!!city.errors?.required">
+                        Ciudad es <strong>requerida</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+          </ngb-panel>
+
+          <ngb-panel id="static-2">
+            <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                <button ngbPanelToggle class="btn btn-link container-fluid text-left pl-0 font-weight-bold">
+                  DATOS REPRESENTANTE LEGAL
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="representativeName">Nombre(s)</label>
+                    <input type="text" class="form-control" name="representativeName"
+                      [(ngModel)]="supplierLegalRepresentative.firstName" #representativeName="ngModel" maxlength="50">
+                    <div
+                      *ngIf="(representativeName.dirty || representativeName.touched || submitted) && !representativeName.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!representativeName.errors?.required">
+                        Nombre es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="representativeLastName">Apellido(s)</label>
+                    <input type="text" class="form-control" name="representativeLastName"
+                      [(ngModel)]="supplierLegalRepresentative.lastName" #representativeLastName="ngModel"
+                      maxlength="50">
+                    <div
+                      *ngIf="(representativeLastName.dirty || representativeLastName.touched || submitted) && !representativeLastName.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!representativeLastName.errors?.required">
+                        Apellido es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="representativeCURP">CURP</label>
+                    <input type="text" class="form-control" name="representativeCURP"
+                      [(ngModel)]="supplierLegalRepresentative.curpId" #representativeCURP="ngModel" maxlength="18"
+                      pattern="[A-Z][AEIOUX][A-Z]{2}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[MH]([ABCMTZ]S|[BCJMOT]C|[CNPST]L|[GNQ]T|[GQS]R|C[MH]|[MY]N|[DH]G|NE|VZ|DF|SP)[BCDFGHJ-NP-TV-Z]{3}[0-9A-Z][0-9]"
+                      (ngModelChange)="supplierLegalRepresentative.curpId=$event.toUpperCase()">
+                    <div
+                      *ngIf="(representativeCURP.dirty || representativeCURP.touched || submitted) && !representativeCURP.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!representativeCURP.errors?.required">
+                        CURP es <strong>requerido</strong>
+                      </div>
+                      <div *ngIf="!!representativeCURP.errors?.pattern">
+                        El formato del CURP es <strong>inválido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="representativeTaxId">RFC</label>
+                    <input type="text" class="form-control" name="representativeTaxId"
+                      [(ngModel)]="supplierLegalRepresentative.rfcId" #representativeTaxId="ngModel" maxlength="13"
+                      pattern="[A-Z&Ñ]{3,4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]"
+                      (ngModelChange)="supplierLegalRepresentative.rfcId=$event.toUpperCase()">
+                    <div
+                      *ngIf="(representativeTaxId.dirty || representativeTaxId.touched || submitted) && !representativeTaxId.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!representativeTaxId.errors?.required">
+                        RFC es <strong>requerido</strong>
+                      </div>
+                      <div *ngIf="!!representativeTaxId.errors?.pattern">
+                        El formato del RFC es <strong>inválido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="representativeEmail">Email</label>
+                    <input type="text" class="form-control" name="representativeEmail"
+                      [(ngModel)]="supplierLegalRepresentative.email" #representativeEmail="ngModel" maxlength="50">
+                    <div
+                      *ngIf="(representativeEmail.dirty || representativeEmail.touched || submitted) && !representativeEmail.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!representativeEmail.errors?.required">
+                        Email es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel id="static-3">
+            <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                <button ngbPanelToggle class="btn btn-link container-fluid text-left pl-0 font-weight-bold">
+                  INFORMACIÓN FINANCIERA
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="row mb-3">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <button type="button" class="btn btn-info" title="Nuevo"
+                    (click)="openModalSupplierFinancials(actionModal.Create, {})">
+                    <span class="material-icons md-18 align-text-bottom">add</span> Nuevo
+                  </button>
+                </div>
+              </div>
+
+              <div class="row mb-3 accordion-item" *ngIf="listSupplierFinancials.length > 0">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                  <ejs-grid #gridSupplierFinancials [dataSource]="listSupplierFinancials" [allowPaging]="true"
+                    [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptionsSupplierFinancial"
+                    [pageSettings]="pageSettingsSupplierFinancial" [gridLines]="gridLinesSupplierFinancial"
+                    rowHeight="20">
+                    <e-columns>
+                      <e-column *ngFor="let col of colsSupplierFinancial" field="{{ col.field }}"
+                        headerText="{{ col.header }}" width="{{ col.width }}" [filter]="filterGridSupplierFinancial"
+                        [visible]="col.visible"></e-column>
+                    </e-columns>
+                  </ejs-grid>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="listSupplierFinancials.length === 0">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                  <span class="text-danger font-weight-bold">
+                    No se han agregado registros.
+                  </span>
+                </div>
+              </div>
+
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel id="static-4">
+            <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                <button ngbPanelToggle class="btn btn-link container-fluid text-left pl-0 font-weight-bold">
+                  EXPEDIENTE
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="plant">Planta</label>
+                    <ejs-dropdownlist #plantObj #plant="ngModel" [(ngModel)]="supplierRecord.plantId" name="plant"
+                      [dataSource]="listPlants" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringPlants($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                      [ignoreAccent]="true" [placeholder]="'Seleccione una planta'" [showClearButton]="true" required>
+                    </ejs-dropdownlist>
+                    <div *ngIf="(plant.dirty || plant.touched || submitted) && !plant.valid" class="alert alert-danger">
+                      <div *ngIf="!!plant.errors?.required">
+                        Planta es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="supplierPaymentTerm">Condiciones de Pago</label>
+                    <ejs-dropdownlist #supplierPaymentTermObj #supplierPaymentTerm="ngModel"
+                      [(ngModel)]="supplierRecord.supplierPaymentTermId" name="supplierPaymentTerm"
+                      [dataSource]="listSupplierPaymentTerm" [fields]="{ text: 'name', value: 'id' }"
+                      (filtering)="filteringSupplierPaymentTerms($event)" [filterBarPlaceholder]="'Buscar'"
+                      [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione las condiciones de pago'"
+                      [showClearButton]="true">
+                    </ejs-dropdownlist>
+                    <div
+                      *ngIf="(supplierPaymentTerm.dirty || supplierPaymentTerm.touched || submitted) && !supplierPaymentTerm.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!supplierPaymentTerm.errors?.required">
+                        Condiciones de Pago es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="notes">Notas</label>
+                    <textarea class="form-control" name="notes" id="notes" rows="3" maxlength="{{ maxLengthNotes }}"
+                      [(ngModel)]="supplierRecord.notes" #notes="ngModel"></textarea>
+                  </div>
+                  <div class="text-right">
+                    <span>
+                      <strong>{{ maxLengthNotes }} </strong> / {{ maxLengthNotes - supplierRecord.notes.length }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="fiscalSituation">Constancia de situación fiscal</label>
+                    <div class="form-row">
+                      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12">
+                        <input type="text" class="form-control" name="fiscalSituation"
+                          [(ngModel)]="supplierRecord.fiscalSituation" #fiscalSituation="ngModel" readonly>
+                      </div>
+                      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <button type="button" class="btn btn-info" (click)="fileUploadFiscalSituation.click()">
+                          Selección de archivo...
+                        </button>
+                      </div>
+                    </div>
+                    <input type="file" id="fileUploadFiscalSituation" #fileUploadFiscalSituation class="d-none"
+                      (change)="fiscalSituationSelect(fiscalSituationDocument.id, $event)"
+                      [accept]="fiscalSituationDocument.allowedExtensions" />
+                    <div
+                      *ngIf="(fiscalSituation.dirty || fiscalSituation.touched || submitted) && !fiscalSituation.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!fiscalSituation.errors?.required">
+                        Constancia de situación fiscal es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="accountStatus">Estado de cuenta</label>
+                    <div class="form-row">
+                      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12">
+                        <input type="text" class="form-control" name="accountStatus"
+                          [(ngModel)]="supplierRecord.accountStatus" #accountStatus="ngModel" readonly>
+                      </div>
+                      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                        <button type="button" class="btn btn-info" (click)="fileUploadAccountStatus.click()">
+                          Selección de archivo...
+                        </button>
+                      </div>
+                    </div>
+                    <input type="file" id="fileUploadAccountStatus" #fileUploadAccountStatus class="d-none"
+                      (change)="accountStatusSelect(accountStatusDocument.id, $event)"
+                      [accept]="accountStatusDocument.allowedExtensions" />
+                    <div *ngIf="(accountStatus.dirty || accountStatus.touched || submitted) && !accountStatus.valid"
+                      class="alert alert-danger">
+                      <div *ngIf="!!accountStatus.errors?.required">
+                        Estado de cuenta es <strong>requerido</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </ng-template>
+
+          </ngb-panel>
+
+          <ngb-panel id="static-5">
+            <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                <button ngbPanelToggle class="btn btn-link container-fluid text-left pl-0 font-weight-bold">
+                  CONTACTOS
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="row mb-3">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                  <button type="button" class="btn btn-info" title="Nuevo"
+                    (click)="openModalSupplierContacts(actionModal.Create, {})">
+                    <span class="material-icons md-18 align-text-bottom">add</span> Nuevo
+                  </button>
+                </div>
+              </div>
+
+              <div class="row mb-3 accordion-item" *ngIf="listSupplierContacts.length > 0">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                  <ejs-grid #gridSupplierContacts [dataSource]="listSupplierContacts" [allowPaging]="true"
+                    [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptionsSupplierContact"
+                    [pageSettings]="pageSettingsSupplierContact" [gridLines]="gridLinesSupplierContact" rowHeight="20">
+                    <e-columns>
+                      <e-column *ngFor="let col of colsSupplierContact" field="{{ col.field }}"
+                        headerText="{{ col.header }}" width="{{ col.width }}" [filter]="filterGridSupplierContact"
+                        [visible]="col.visible">
+                      </e-column>
+                      <e-column field="" headerText="" width="60" minWidth="60" style="padding: unset;" headerTextAlign="center"
+                        textAlign="center">
+                        <ng-template #template let-data>
+                          <button type="button" class="btn btn-info btn-sm" title="Editar" (click)="openModalSupplierContacts(actionContact.Edit, data)">
+                            <span class="material-icons md-18 align-text-bottom">edit</span>
+                          </button>
+                        </ng-template>
+                      </e-column>
+                    </e-columns>
+                    
+                  </ejs-grid>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="listSupplierContacts.length === 0">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                  <span class="text-danger font-weight-bold">
+                    No se han agregado registros.
+                  </span>
+                </div>
+              </div>
+
+            </ng-template>
+          </ngb-panel>
+
+        </ngb-accordion>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" [routerLink]="pageRedirect">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

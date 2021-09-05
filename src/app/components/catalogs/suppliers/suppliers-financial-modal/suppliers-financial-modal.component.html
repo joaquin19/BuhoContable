@@ -1,0 +1,5 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-suppliers-financial-form #suppliersFinancialForm [action]="action" [item]="item"
+    (saveItem)="saveFormHandled($event)">
+  </app-suppliers-financial-form>
+</app-modal-form>

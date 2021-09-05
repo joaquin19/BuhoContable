@@ -1,0 +1,169 @@
+<div class="row mt-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group">
+      <label class="font-weight-bold" for="productTypeName">Importar Documento de Productos</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button type="button" class="btn btn-secondary btn-sm" title="Descargar Plantilla"
+            (click)="downloadTemplate()">
+            <span class="material-icons md-18 align-text-bottom">cloud_download</span>
+          </button>
+        </div>
+        <div class="input-group-prepend">
+          <button type="button" class="btn btn-info" (click)="fileUploadProductImported.click()"
+            title="Selección de archivo a subir">
+            Selección de archivo...
+          </button>
+        </div>
+        <input type="text" class="form-control" name="fileNameProductImported" [(ngModel)]="fileNameProductImported"
+          #fileNameImported="ngModel" (click)="fileUploadProductImported.click()" readonly>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-danger btn-sm" title="Eliminar" (click)="clearFile()">
+            <span class="material-icons md-18 align-text-bottom">delete</span>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileUploadProductImported" #fileUploadProductImported class="d-none"
+        (change)="onChange($event)" accept=".xls,.xlsx" />
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+    <div class="alert alert-danger" *ngIf="errorsCount > 0">
+      <span class="text-danger font-weight-bold">
+        ** Se encontraron registros con errores. Favor de validar los registros y vuelva a subir el archivo.
+      </span>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let column of columnsHeader">
+              <div class="{{ column.classStyle }}">{{ column.text }}</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listProductTable; let i = index" [ngClass]="{'activeRow': rowSelected === i}"
+            (click)="selectItem(i)" (dblclick)="deselectItem(i)">
+            <td>
+              <span>{{ item.no }}</span>
+            </td>
+            <td>
+              <span>{{ item.productType }}</span>
+              <br>
+              <span class="text-danger">{{ item?.productTypeError }}</span>
+            </td>
+            <td>
+              <span>{{ item.customer }}</span>
+              <br>
+              <span class="text-danger">{{ item?.customerError }}</span>
+            </td>
+            <td>
+              <span>{{ item.carModel }}</span>
+              <br>
+              <span class="text-danger">{{ item?.carModelError }}</span>
+            </td>
+            <td>
+              <span>{{ item.carModelDr }}</span>
+            </td>
+            <td>
+              <span>{{ item.partNumber }}</span>
+              <br>
+              <span class="text-danger">{{ item?.partNumberError }}</span>
+            </td>
+            <td>
+              <span>{{ item.partNumberCustomer }}</span>
+            </td>
+            <td>
+              <span>{{ item.productLevelId }}</span>
+            </td>
+            <td>
+              <span>{{ item.component }}</span>
+            </td>
+            <td>
+              <span>{{ item.partName }}</span>
+              <br>
+              <span class="text-danger">{{ item?.partNameError }}</span>
+            </td>
+            <td>
+              <span>{{ item.grade }}</span>
+            </td>
+            <td>
+              <span>{{ item.msSpec }}</span>
+            </td>
+            <td>
+              <span>{{ item.supplier }}</span>
+            </td>
+            <td>
+              <span>{{ item.use }}</span>
+            </td>
+            <td>
+              <span>{{ item.cTime }}</span>
+            </td>
+            <td>
+              <span>{{ item.cv }}</span>
+            </td>
+            <td>
+              <span>{{ item.weight }}</span>
+            </td>
+            <td>
+              <span>{{ item.actualWeight }}</span>
+            </td>
+            <td>
+              <span>{{ item.ttlKg }}</span>
+            </td>
+            <td>
+              <span>{{ item.unitMeasure }}</span>
+              <br>
+              <span class="text-danger">{{ item?.unitMeasureError }}</span>
+            </td>
+            <td>
+              <span>{{ item.unitSale }}</span>
+            </td>
+            <td>
+              <span>{{ item.option }}</span>
+            </td>
+            <td>
+              <span>{{ item.remark }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="listProductTable.length === 0">
+            <td colspan="6">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+                  <span class="text-danger font-weight-bold">
+                    No se encontraron registros.
+                  </span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row" *ngIf="listProductTable.length > 0">
+        <ngb-pagination class="mx-4" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+          [boundaryLinks]="true" [maxSize]="10" (pageChange)="refreshItems()">
+        </ngb-pagination>
+
+        <select class="custom-select wf-auto" name="pageSize" #pageS="ngModel" [(ngModel)]="pageSize"
+          (ngModelChange)="refreshItems()">
+          <option [value]="itemPage" *ngFor="let itemPage of itemsPage">{{ itemPage }} items por página</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row my-3">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+    <button type="button" class="btn btn-danger mr-3" [routerLink]="pageRedirect">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-success" (click)="saveImportProducts()">
+      Guardar
+    </button>
+  </div>
+</div>

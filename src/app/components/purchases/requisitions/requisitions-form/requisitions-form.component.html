@@ -1,0 +1,306 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<h2> {{ requisition.folio }} </h2>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <form #formRequisition="ngForm">
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="requisitionTypes">Tipo Requisición</label>
+              <ejs-dropdownlist #requisitionTypeObj #requisitionTypeId="ngModel"
+                [(ngModel)]="requisition.requisitionTypeId" id="requisitionTypeId" name="requisitionTypeId"
+                [dataSource]="listRequisitionTypes" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringRequisitionTypes($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de requisición'"
+                [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(requisitionTypeId.dirty || requisitionTypeId.touched) && !requisitionTypeId.valid"
+                class="alert alert-danger">
+                <div *ngIf="requisitionTypeId.errors?.required">
+                  Tipo Requisición es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="date">Fecha de Pedido</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" #dateOrder="ngModel"
+                  [(ngModel)]="modelDate" ngbDatepicker #d="ngbDatepicker" readonly required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="(dateOrder.dirty || dateOrder.touched) && !dateOrder.valid" class="alert alert-danger">
+                <div *ngIf="!!dateOrder.errors?.required">
+                  Fecha de Pedido es <strong>requerida</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="suppliers">Proveedor</label>
+              <ejs-dropdownlist #supplierObj #supplierId="ngModel" [(ngModel)]="requisition.supplierId" id="supplierId"
+                name="supplierId" [dataSource]="listSuppliers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringSuppliers($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un proveedor'" [showClearButton]="true"
+                (change)="changeSupplier()" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(supplierId.dirty || supplierId.touched) && !supplierId.valid" class="alert alert-danger">
+                <div *ngIf="supplierId.errors?.required">
+                  Proveedor es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group content">
+              <label class="font-weight-bold" for="plants">Planta</label>
+              <ejs-dropdownlist #plantObj #plantId="ngModel" [(ngModel)]="requisition.plantId" id="plantId"
+                name="plantId" [dataSource]="listPlants" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringPlants($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione una planta'" [showClearButton]="true" readonly
+                required>
+              </ejs-dropdownlist>
+              <div *ngIf="(plantId.dirty || plantId.touched) && !plantId.valid" class="alert alert-danger">
+                <div *ngIf="plantId.errors?.required">
+                  Planta es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="businessUnits">Unidad de Negocio</label>
+              <ejs-dropdownlist #businessUnitObj #businessUnitId="ngModel" [(ngModel)]="requisition.businessUnitId"
+                id="businessUnitId" name="businessUnitId" [dataSource]="listBusinessUnits"
+                [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBusinessUnits($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione una unidad de negocio'" [showClearButton]="true"
+                (change)="changeBusinessUnit()" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(businessUnitId.dirty || businessUnitId.touched) && !businessUnitId.valid"
+                class="alert alert-danger">
+                <div *ngIf="businessUnitId.errors?.required">
+                  Unidad de Negocio es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group content">
+              <label class="font-weight-bold" for="costCenters">Centro de Costo</label>
+              <ejs-dropdownlist #costCenterObj #costCenterId="ngModel" [(ngModel)]="requisition.costCenterId"
+                id="costCenterId" name="costCenterId" [dataSource]="listCostCenters"
+                [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringCostCenters($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione un centro de costo'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(costCenterId.dirty || costCenterId.touched) && !costCenterId.valid"
+                class="alert alert-danger">
+                <div *ngIf="costCenterId.errors?.required">
+                  Centro de Costo es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="exchangeRateValue">Moneda</label>
+              <ejs-dropdownlist #currencyObj #currencyId="ngModel" [(ngModel)]="requisition.currencyId" id="currencyId"
+                name="currencyId" [dataSource]="listCurrencies" [fields]="{ text: 'fullName', value: 'id' }"
+                (filtering)="filteringCurrencies($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de moneda'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(currencyId.dirty || currencyId.touched || submitted) && !currencyId.valid"
+                class="alert alert-danger">
+                <div *ngIf="currencyId.errors?.required">
+                  Moneda es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3 ng-star-inserted">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <button type="button" class="btn btn-info" title="Agregar Artículo"
+              (click)="openModalRequisitionEdition(actionModal.Create, {})">
+              <span class="material-icons md-18 align-text-bottom">add</span> Agregar Artículo
+            </button>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listRequisitionEdition.length > 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="control-section">
+              <ejs-grid #gridRequisitionEdition [dataSource]="listRequisitionEdition" [allowPaging]="false"
+                [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptionsRequisitionEdition"
+                [pageSettings]="pageSettingsRequisitionEdition" [gridLines]="gridLinesRequisitionEdition"
+                rowHeight="20">
+                <e-columns>
+                  <e-column *ngFor="let col of colsRequisitionEdition" [field]="col.field" [headerText]="col.headerText"
+                    [width]="col.width" [filter]="filterGridRequisitionEdition" [visible]="col.visible"
+                    [format]="col.format" clipMode='EllipsisWithTooltip'></e-column>
+                  <e-column field="" headerText="" width="50" minWidth="50" headerTextAlign="center" textAlign="center">
+                    <ng-template #template let-data>
+                      <button type="button" class="btn btn-info btn-sm" title="Editar"
+                        (click)="editItemRequisition(data)">
+                        <span class="material-icons md-18 align-text-bottom">edit</span>
+                      </button>
+                    </ng-template>
+                  </e-column>
+                  <e-column field="" headerText="" width="50" minWidth="50" headerTextAlign="center" textAlign="center">
+                    <ng-template #template let-data>
+                      <button type="button" class="btn btn-info btn-sm" title="Eliminar"
+                        (click)="confirmDeleteItemRequisition(data)">
+                        <span class="material-icons md-18 align-text-bottom">delete</span>
+                      </button>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+              </ejs-grid>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="listRequisitionEdition.length > 0">
+          <div class="col-lg-10 col-md-11" align="right">
+            <p class="font-weight-bold m-3">
+              SUB TOTAL: {{subTotal}}
+            </p>
+          </div>
+        </div>
+        <div class="row" *ngFor="let colT of listTaxesAdded">
+          <div class="col-lg-10 col-md-11" align="right">
+            <p class="font-weight-bold m-3">
+              {{colT.name}}: {{colT.amount}}
+            </p>
+          </div>
+        </div>
+        <div class="row" *ngIf="listRequisitionEdition.length > 0">
+          <div class="col-lg-10 col-md-11" align="right">
+            <p class="font-weight-bold m-3">
+              TOTAL: {{total}}
+            </p>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listRequisitionEdition.length === 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <span class="text-danger font-weight-bold">
+              No se han agregado registros.
+            </span>
+          </div>
+        </div>
+        <br>
+
+        <div class="card w-100">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group">
+                  <div class="form-row">
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                      <button type="button" class="btn btn-info" (click)="fileUploadImage.click()">
+                        <span class="material-icons md-18 align-text-bottom">add</span> Añadir documentos
+                      </button>
+                    </div>
+                  </div>
+                  <input type="file" id="fileUploadImage" #fileUploadImage class="d-none"
+                    (change)="documentSelect(requisitionDocument.id, $event)"
+                    [accept]="requisitionDocument.allowedExtensions" multiple />
+                </div>
+                <div *ngFor="let documentName of listDocumentSelected; index as i">
+                  <span class="material-icons md-28 align-text-bottom" title="Eliminar Documento"
+                    style="color: brown; cursor: pointer;" (click)="deleteDocumentSelected(i)">delete</span>
+                  <span>{{documentName}}</span>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="row" *ngIf="requisitionDocument.length > 0 && requisitionDocument[0].id != 0">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="font-weight-bold">Documentos Añadidos</label>
+                <div *ngFor="let document of requisitionDocument; index as i">
+                  <span class="material-icons md-28 align-text-bottom" title="Descargar Documento"
+                    style="color: dodgerblue; cursor: pointer;"
+                    (click)="downloadDocument(document)">vertical_align_bottom</span>
+                  <span class="material-icons md-28 align-text-bottom" title="Eliminar Documento"
+                    style="color: brown; cursor: pointer;" (click)="confirmDeleteDocument(i)">delete</span>
+                  <span>{{document.userName}}</span>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="row" *ngIf="requisitionImages.length > 0 && requisitionImages[0].id != 0">
+              <div class="col-xl-3 col-lg-2 col-md-0 col-sm-0"></div>
+              <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12">
+                <ngb-carousel #carousel (slide)="onSlide($event)">
+                  <ng-template ngbSlide *ngFor="let img of requisitionImages; index as i" [id]="i">
+                    <div class="picsum-img-wrapper">
+                      <img [src]="'data:image/png;base64,'+img.imageBase64" alt="Random first slide" width="800px"
+                        height="auto">
+                    </div>
+                    <div class="carousel-caption">
+
+                    </div>
+                  </ng-template>
+                </ngb-carousel>
+                <div class="row">
+                  <div align="left" class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <p style="color: dodgerblue;">{{imageNameSelected}}</p>
+                  </div>
+                  <div align="right" class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <span class="material-icons md-28 align-text-bottom" title="Eliminar Imagen"
+                      style="color: brown; cursor: pointer;" (click)="confirmDeleteImage()">delete</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-xl-3 col-lg-2 col-md-0 col-sm-0"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" routerLink="/purchases/requisitions">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" [disabled]="!formRequisition.form.valid" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

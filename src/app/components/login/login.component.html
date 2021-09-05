@@ -1,0 +1,71 @@
+<div id="login-container" class="wrapper-page">
+
+  <div class="card">
+    <div class="card-body">
+
+      <div class="card-title text-center mb-3">
+        <img class="logo-login-header" src="assets/images/KOPS_Logo.png">
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="login()">
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="material-icons md-18">person</span>
+              </span>
+            </div>
+            <input class="form-control" type="text" id="userName" name="userName" [(ngModel)]="user.userName"
+              #userName="ngModel" placeholder="Usuario" [ngClass]="{ 'is-invalid': submitted && userName.errors }"
+              required />
+            <div *ngIf="(userName.dirty || userName.touched || submitted) && !userName.valid" class="invalid-feedback">
+              <div *ngIf="!!userName.errors?.required">
+                Usuario es <strong>requerido</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="material-icons md-18">lock</span>
+              </span>
+            </div>
+            <input class="form-control" type="password" id="password" name="password" [(ngModel)]="user.password"
+              #password="ngModel" placeholder="Contraseña" [ngClass]="{ 'is-invalid': submitted && password.errors }"
+              required />
+            <div *ngIf="(password.dirty || password.touched || submitted) && !password.valid" class="invalid-feedback">
+              <div *ngIf="!!password.errors?.required">
+                Contraseña es <strong>requerida</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group my-3">
+          <button class="btn btn-block" type="submit">
+            <span class="material-icons md-18 align-middle my-1">login</span> Ingresar
+          </button>
+        </div>
+
+      </form>
+
+      <div class="text-center mb-3">
+        <strong><em>{{ applicationName }}</em></strong>
+      </div>
+
+      <div class="text-center text-muted">
+        <span>{{ developedBy }}</span>
+      </div>
+
+      <div class="text-center text-muted">
+        Versión: <span>{{ infoVersion }}</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>

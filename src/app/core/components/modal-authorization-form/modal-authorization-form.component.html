@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+</div>
+<div class="modal-body">
+  <ng-content></ng-content>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModalAuthorization()" style="align-content: right;">
+    Cerrar
+  </button>
+  <button type="button" class="btn btn-success" (click)="authorizeModalAuthorization()">
+    Autorizar
+  </button>
+  <button type="button" class="btn btn-warning" (click)="rejectModalAuthorization()">
+    Rechazar
+  </button>
+</div>

@@ -1,0 +1,196 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<form #formSalesSupport="ngForm">
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Cliente</label>
+              <ejs-dropdownlist #customerObj #customerId="ngModel" [(ngModel)]="salesSupport.customerId" id="customerId"
+                name="customerId" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Cliente'" [showClearButton]="true"
+                (change)="changeCustomer()" required [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(customerId.dirty || customerId.touched || submitted) && !customerId.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!customerId.errors?.required">
+                  Cliente es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="currency">Moneda</label>
+              <ejs-dropdownlist #currencyObj #currencyId="ngModel" [(ngModel)]="salesSupport.currencyId" id="currencyId"
+                name="currencyId" [dataSource]="listCurrencies" [fields]="{ text: 'fullName', value: 'id' }"
+                (filtering)="filteringCurrency($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione una moneda'" [showClearButton]="true"
+                (change)="changeCurrency()" required [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(currencyId.dirty || currencyId.touched || submitted) && !currencyId.valid"
+                class="alert alert-danger">
+                <div *ngIf="currencyId.errors?.required">
+                  Moneda es <strong>requerido</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="startDate">Fecha de Inicio</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" [(ngModel)]="startDate"
+                  ngbDatepicker #sd="ngbDatepicker" readonly required (dateSelect)="dateSelectStart()">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()" type="button"
+                    [disabled]="isReadOnly">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="endDate">Fecha de Fin</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" [(ngModel)]="endDate" ngbDatepicker
+                  #ed="ngbDatepicker" readonly required (dateSelect)="dateSelectEnd()">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="ed.toggle()" type="button"
+                    [disabled]="isReadOnly">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="dual-list-wrapper">
+              <div class="dual-list-groupa">
+                <h4>Remisiones Creadas</h4>
+                <ejs-listbox [dataSource]="listRemissionCreated" [fields]="setfield" height="330px"
+                  [toolbarSettings]="toolbar" scope="#listbox" (actionComplete)="actionComplete($event)"></ejs-listbox>
+              </div>
+              <div class="dual-list-groupb">
+                <h4>Reporte Ventas-Factura</h4>
+                <ejs-listbox [dataSource]="listReportSalesSupport" [fields]="setfield" height="330px" id="listbox"
+                  (actionComplete)="actionComplete($event)"></ejs-listbox>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col" *ngFor="let column of columnsHeader">
+                      <div class="{{ column.classStyle }}">{{ column.text }}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listSalesSupport; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="text-center">
+                      <span>{{ item.shippingDate }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ item.partNumber }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ item.quantity }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ item.salePrice }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ item.subTotal }}</span>
+                    </td>
+                    <!-- esta columna es el folio de la remisión pero el cliente la nombra como referencia -->
+                    <td class="text-center">
+                      <span>{{ item.reference }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span>{{ item.observations }}</span>
+                    </td>
+                    <!-- <td class="text-center">
+                    <span [hidden]="item.inedit">{{ item.observations }}</span>
+                    <input type="text" class="form-control" [hidden]="!item.inedit" [(ngModel)]="item.observations"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </td>
+                  <td class="text-center">
+                    <div id="actionEdit" [hidden]="item.inedit">
+                      <button type="button" class="btn btn-info btn-sm mr-3" title="Editar"
+                        (click)="editItem(item, i)">
+                        <span class="material-icons md-18 align-text-bottom">edit</span>
+                      </button>
+                      <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="deleteItem(i)">
+                        <span class="material-icons md-18 align-text-bottom">delete</span>
+                      </button>
+                    </div>
+                    <div id="actionSave" [hidden]="!item.inedit">
+                      <button type="button" class="btn btn-danger btn-sm mr-3" title="Cerrar" (click)="cancelItem(i)">
+                        <span class="material-icons md-18 align-text-bottom">clear</span>
+                      </button>
+                      <button type="button" class="btn btn-success btn-sm" title="Guardar"
+                        (click)="saveItem(item, i)">
+                        <span class="material-icons md-18 align-text-bottom">save</span>
+                      </button>
+                    </div>
+                  </td> -->
+                  </tr>
+                  <tr *ngIf="listSalesSupport.length === 0">
+                    <td colspan="6">
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+                          <span class="text-danger font-weight-bold">
+                            No se encontraron registros.
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" routerLink="/sales/sales-support">
+              Cancelar
+            </button>
+            <!-- <button type="button" class="btn btn-warning mr-3" title="Exportar Excel" (click)="excelExport();">
+              <span class="material-icons md-18 align-text-bottom">vertical_align_bottom</span> Support
+            </button> -->
+            <button type="button" class="btn btn-success" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

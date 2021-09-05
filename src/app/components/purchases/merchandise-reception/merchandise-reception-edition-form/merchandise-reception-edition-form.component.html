@@ -1,0 +1,92 @@
+<form #formMerchandiseReceptionEdition="ngForm">
+
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="fullName">Nombre Artículo</label>
+        <input type="text" class="form-control" name="fullName" maxlength="50"
+          [(ngModel)]="merchandiseReceptionEdition.fullName" #fullName="ngModel" readonly />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción del Artículo</label>
+        <textarea class="form-control" name="description" id="description" rows="3"
+          [(ngModel)]="merchandiseReceptionEdition.description" #description="ngModel" readonly></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="quantity">Cantidad</label>
+        <input type="text" class="form-control" name="quantity" [(ngModel)]="merchandiseReceptionEdition.quantity"
+          #quantity="ngModel" maxlength="18" readonly>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="newReceivedQuantity">Cantidad Recibida</label>
+        <input type="text" class="form-control" name="newReceivedQuantity"
+          [(ngModel)]="merchandiseReceptionEdition.newReceivedQuantity" #newReceivedQuantity="ngModel" maxlength="18"
+          (blur)="blurQuantity($event)" required>
+        <div
+          *ngIf="(newReceivedQuantity.dirty || newReceivedQuantity.touched || submitted) && !newReceivedQuantity.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!newReceivedQuantity.errors?.required">
+            Cantidad es <strong>requerida</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="newPendingQuantity">Cantidad Pendiente</label>
+        <input type="text" class="form-control" name="newPendingQuantity"
+          [(ngModel)]="merchandiseReceptionEdition.newPendingQuantity" #newPendingQuantity="ngModel" maxlength="18"
+          readonly>
+      </div>
+    </div>
+  </div>
+
+  <div class="card w-100">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label class="font-weight-bold" for="evidence">Evidencia de Recepción</label>
+            <div class="form-row">
+
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <button type="button" class="btn btn-info" (click)="fileUploadImageMerchandise.click()">
+                  Seleccione los archivos
+                </button>
+              </div>
+            </div>
+            <input type="file" id="fileUploadImageMerchandise" #fileUploadImageMerchandise class="d-none"
+              (change)="imageMerchandiseSelect($event)" [accept]="merchandiseReceptionDocument.allowedExtensions"
+              multiple />
+            <div *ngIf="(files.length === 0 && submitted)" class="alert alert-danger">
+              Archivos de Recepción es <strong>requerido</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <li *ngFor="let imageName of listImageNames">
+            <span>{{imageName}}</span>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

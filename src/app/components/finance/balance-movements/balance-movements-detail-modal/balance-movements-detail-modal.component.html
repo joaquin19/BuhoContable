@@ -1,0 +1,6 @@
+<app-modal-detail-form #modalBalanceMovementsDetailForm [title]="title" (closeForm)="closeHandled()">
+  <app-balance-movements-detail-form #balanceMovementDetailForm [action]="action" [item]="item">
+  </app-balance-movements-detail-form>
+  <app-balance-movement-log-form #balanceMovementLogForm [item]="item">
+  </app-balance-movement-log-form> 
+</app-modal-detail-form>

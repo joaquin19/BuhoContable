@@ -1,0 +1,257 @@
+<form #formAccountBank="ngForm">
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Datos de la Cuenta</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="name">Identificador (Nombre Corto)</label>
+        <input type="text" class="form-control" name="name" maxlength="50" [(ngModel)]="accountBank.name" #name="ngModel" appAutofocus required/>
+        <div *ngIf="(name.dirty || name.touched || submitted) && !name.valid" class="alert alert-danger">
+          <div *ngIf="!!name.errors?.required">
+            Identificador es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción de la Cuenta</label>
+        <textarea class="form-control" name="description" id="description" rows="2"
+          maxlength="{{ maxLengthDescription }}" [(ngModel)]="accountBank.description" #description="ngModel"></textarea>
+      </div>
+      <div class="text-right">
+        <span>
+          <strong>{{ maxLengthDescription }} </strong> /
+          {{ maxLengthDescription - accountBank.description.length }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bank">Banco</label>
+        <ejs-dropdownlist #bankObj #bank="ngModel" [(ngModel)]="accountBank.bankId"
+          id="bank" name="bank" [dataSource]="listBanks"
+          [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBank($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un tipo de artículo'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(bank.dirty || bank.touched || submitted) && !bank.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!bank.errors?.required">
+            Banco es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="branchOffice">No. Sucursal</label>
+        <input type="text" class="form-control" name="branchOffice" maxlength="6" [(ngModel)]="accountBank.branchOffice" #branchOffice="ngModel" required/>
+        <div *ngIf="(branchOffice.dirty || branchOffice.touched || submitted) && !branchOffice.valid" class="alert alert-danger">
+          <div *ngIf="!!branchOffice.errors?.required">
+            Identificador es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="currency">Moneda</label>
+        <ejs-dropdownlist #currencyObj #currency="ngModel" [(ngModel)]="accountBank.currencyId" id="currency"
+          name="currency" [dataSource]="listCurrencies" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCurrencies($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una moneda'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(currency.dirty || currency.touched) && !currency.valid" class="alert alert-danger">
+          <div *ngIf="currency.errors?.required">
+            Moneda es requerido.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="accountNumber">Número de Cuenta</label>
+        <input type="text" class="form-control" name="accountNumber" maxlength="15" [(ngModel)]="accountBank.accountNumber"
+          #accountNumber="ngModel" required />
+        <div *ngIf="(accountNumber.dirty || accountNumber.touched || submitted) && !accountNumber.valid" class="alert alert-danger">
+          <div *ngIf="!!accountNumber.errors?.required">
+            Número de Cuenta es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="clabe">Clabe</label>
+        <input type="text" class="form-control" name="clabe" maxlength="22" [(ngModel)]="accountBank.clabe"
+          #clabe="ngModel" required />
+        <div *ngIf="(clabe.dirty || clabe.touched || submitted) && !clabe.valid" class="alert alert-danger">
+          <div *ngIf="!!clabe.errors?.required">
+            Clabe es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="swiftCode">Swift Code</label>
+        <input type="text" class="form-control" name="swiftCode" maxlength="15" [(ngModel)]="accountBank.swiftCode"
+          #swiftCode="ngModel" />
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Contacto</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="firstName">Nombre(s)</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="accountBankContact.firstName"
+          #firstName="ngModel" maxlength="50" required>
+        <div *ngIf="(firstName.dirty || firstName.touched || submitted) && !firstName.valid" class="alert alert-danger">
+          <div *ngIf="!!firstName.errors?.required">
+            Nombre(s) es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="lastName">Apellido(s)</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="accountBankContact.lastName"
+          #lastName="ngModel" maxlength="50" required>
+        <div *ngIf="(lastName.dirty || lastName.touched || submitted) && !lastName.valid" class="alert alert-danger">
+          <div *ngIf="!!lastName.errors?.required">
+            Apellido(s) es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone1">Teléfono 1</label>
+        <input mask="0*" class="form-control" name="phone1" [(ngModel)]="accountBankContact.phone1" #phone1="ngModel"
+          maxlength="10" required>
+        <div *ngIf="(phone1.dirty || phone1.touched || submitted) && !phone1.valid" class="alert alert-danger">
+          <div *ngIf="!!phone1.errors?.required">
+            Telefono 1 es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil1">Celular 1</label>
+        <input mask="0*" class="form-control" name="movil1" [(ngModel)]="accountBankContact.movil1" #movil1="ngModel"
+          maxlength="10" required>
+        <div *ngIf="(movil1.dirty || movil1.touched || submitted) && !movil1.valid" class="alert alert-danger">
+          <div *ngIf="!!movil1.errors?.required">
+            Celular 1 es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone2">Teléfono 2</label>
+        <input mask="0*" class="form-control" name="phone2" [(ngModel)]="accountBankContact.phone2" #phone2="ngModel"
+          maxlength="10">
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil2">Celular 2</label>
+        <input mask="0*" class="form-control" name="movil2" [(ngModel)]="accountBankContact.movil2" #movil2="ngModel"
+          maxlength="10">
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Email</label>
+        <input type="text" class="form-control" name="email" [(ngModel)]="accountBankContact.email" #email="ngModel"
+          maxlength="50">
+        <div *ngIf="(email.dirty || email.touched || submitted) && !email.valid" class="alert alert-danger">
+          <div *ngIf="!!email.errors?.required">
+            Email es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <br>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Montos</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="initialBalance">Saldo Inicial</label>
+        <input type="text" class="form-control" name="initialBalance" [(ngModel)]="accountBank.initialBalance" #initialBalance="ngModel"
+          maxlength="50" (blur)="blurInitialBalance($event)" required >
+        <div *ngIf="(initialBalance.dirty || initialBalance.touched || submitted) && !initialBalance.valid" class="alert alert-danger">
+          <div *ngIf="!!initialBalance.errors?.required">
+            Saldo Inicial es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="checkNumber">Siguiente Cheque</label>
+        <input type="text" class="form-control" name="checkNumber" [(ngModel)]="accountBank.checkNumber" #checkNumber="ngModel"
+          maxlength="50">
+      </div>
+    </div>
+  </div>
+
+
+
+</form>

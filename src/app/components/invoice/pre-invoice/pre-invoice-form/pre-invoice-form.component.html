@@ -1,0 +1,349 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+<form #formPreInvoice="ngForm">
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="support">Tipo de Soporte</label>
+              <div class="form-control">
+                <label class="radio-inline mr-3">
+                  <input type="radio" name="preInvoiceType" [value]="preInvoiceTypeSupport" #supportTypeId="ngModel"
+                    [(ngModel)]="preInvoice.supportTypeId">
+                  Soporte
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="preInvoiceType" [value]="preInvoiceTypeOutSupport" #supportTypeId="ngModel"
+                    [(ngModel)]="preInvoice.supportTypeId">
+                  Sin Soporte
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Cliente</label>
+              <ejs-dropdownlist #customerObj #customer="ngModel" [(ngModel)]="preInvoice.customerId" id="customer"
+                name="customer" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Cliente'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(customer.dirty || customer.touched || submitted) && !customer.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!customer.errors?.required">
+                  Cliente es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="preInvoice.supportTypeId === preInvoiceTypeSupport">
+            <div class="form-group">
+              <label class="font-weight-bold" for="support">Selecciona el Soporte</label>
+              <ejs-dropdownlist #supportObj #support="ngModel" [(ngModel)]="preInvoice.supportId" id="support"
+                name="support" [dataSource]="listSupport" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringSupport($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Soporte'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(support.dirty || support.touched || submitted) && !support.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!support.errors?.required">
+                  Soporte es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="preInvoice.supportTypeId === preInvoiceTypeOutSupport">
+            <div class="form-group">
+              <label class="font-weight-bold" for="outSupport">Lista de Precios</label>
+              <ejs-dropdownlist #outSupportObj #outSupport="ngModel" [(ngModel)]="preInvoice.priceListId" id="outSupport"
+                name="outSupport" [dataSource]="listOutSupport" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringOutSupport($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione una Lista de Precios'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(outSupport.dirty || outSupport.touched || submitted) && !outSupport.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!outSupport.errors?.required">
+                  Lista de Precios es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="preInvoice.supportTypeId === preInvoiceTypeSupport">
+            <div class="form-group">
+              <label class="font-weight-bold" for="cfdi">Uso de CFDI</label>
+              <ejs-dropdownlist #cfdiObj #cfdi="ngModel" [(ngModel)]="preInvoice.cfdiId" id="cfdi"
+                name="cfdi" [dataSource]="listCFDI" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCFDI($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un CFDI'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(cfdi.dirty || cfdi.touched || submitted) && !cfdi.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!cfdi.errors?.required">
+                  CFDI es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label class="font-weight-bold" for="comprobante">Informacion del Comprobante</label>
+              <input type="text" class="form-control" name="comprobante" maxlength="100" [(ngModel)]="preInvoice.comprobante"
+                #comprobante="ngModel" required />
+              <div *ngIf="(comprobante.dirty || comprobante.touched || submitted) && !comprobante.valid" class="alert alert-danger">
+                <div *ngIf="comprobante.errors?.required">
+                  Informacion de Comprobante es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group">
+              <label class="font-weight-bold" for="payForm">Forma de pago</label>
+              <input type="text" class="form-control" name="payForm" maxlength="100" [(ngModel)]="preInvoice.payForm"
+                #payForm="ngModel" required />
+              <div *ngIf="(payForm.dirty || payForm.touched || submitted) && !payForm.valid" class="alert alert-danger">
+                <div *ngIf="payForm.errors?.required">
+                  Forma de pago es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group">
+              <label class="font-weight-bold" for="payMethod">Metodo de pago</label>
+              <input type="text" class="form-control" name="payMethod" maxlength="100" [(ngModel)]="preInvoice.payMethod"
+                #payMethod="ngModel" required />
+              <div *ngIf="(payMethod.dirty || payMethod.touched || submitted) && !payMethod.valid" class="alert alert-danger">
+                <div *ngIf="payMethod.errors?.required">
+                  Metodo de pago es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group">
+              <label class="font-weight-bold" for="payCondition">Condiciones de pago</label>
+              <input type="text" class="form-control" name="payCondition" maxlength="100" [(ngModel)]="preInvoice.payCondition"
+                #payCondition="ngModel" required />
+              <div *ngIf="(payCondition.dirty || payCondition.touched || submitted) && !payCondition.valid" class="alert alert-danger">
+                <div *ngIf="payCondition.errors?.required">
+                  Condiciones de pago es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group">
+              <label class="font-weight-bold" for="order">Orden de compra</label>
+              <input type="text" class="form-control" name="order" maxlength="100" [(ngModel)]="preInvoice.order"
+                #order="ngModel" required />
+              <div *ngIf="(order.dirty || order.touched || submitted) && !order.valid" class="alert alert-danger">
+                <div *ngIf="order.errors?.required">
+                  Orden de compra es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label class="font-weight-bold" for="observation">Observaciones</label>
+              <input type="text" class="form-control" name="observation" maxlength="100" [(ngModel)]="preInvoice.observation"
+                #observation="ngModel" required />
+              <div *ngIf="(observation.dirty || observation.touched || submitted) && !observation.valid" class="alert alert-danger">
+                <div *ngIf="observation.errors?.required">
+                  Observaciones es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12 text-right">
+            <button type="button" class="btn btn-info" title="Agregar Productos" (click)="addNewItem()">
+              <span class="material-icons md-18 align-text-bottom">add</span> Agregar Productos
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col" *ngFor="let column of columnsHeader">
+                      <div class="{{ column.classStyle }}">{{ column.text }}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="newItem">
+                    <td>
+                      <input type="text" class="form-control" name="no" #no="ngModel" [(ngModel)]="newItemAdd.no" required />
+                      <div *ngIf="(no.dirty || no.touched || submittedItemAdd) && !no.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="no.errors?.required">
+                          No es <strong>requerido</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="quantity" #quantity="ngModel"
+                        [(ngModel)]="newItemAdd.quantity" />
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="partNumber" #partNumber="ngModel"
+                        [(ngModel)]="newItemAdd.partNumber" required/>
+                        <div *ngIf="(partNumber.dirty || partNumber.touched || submittedItemAdd) && !partNumber.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="partNumber.errors?.required">
+                          No. Parte es <strong>requerido</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="partName" #partName="ngModel"
+                        [(ngModel)]="newItemAdd.partName" required />
+                        <div *ngIf="(partName.dirty || partName.touched || submittedItemAdd) && !partName.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="partName.errors?.required">
+                          Nombre de Parte es <strong>requerido</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input mask="0*" class="form-control" name="claveUnitMeasure" #claveUnitMeasure="ngModel"
+                        [(ngModel)]="newItemAdd.claveUnitMeasure" />
+                    </td>
+                    <td>
+                      <input mask="0*" class="form-control" name="claveProductService" #claveProductService="ngModel"
+                        [(ngModel)]="newItemAdd.claveProductService" />
+                    </td>
+                    <td>
+                      <div id="actionSaveNew" class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm mr-3" title="Cerrar"
+                          (click)="cancelItemAdd()">
+                          <span class="material-icons md-18 align-text-bottom">clear</span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" title="Guardar" (click)="saveItemAdd()">
+                          <span class="material-icons md-18 align-text-bottom">save</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let item of listPreInvoiceTable; let i = index" [ngClass]="{'activeRow': rowSelected === i}"
+                    (click)="selectItem(i)" (dblclick)="deselectItem(i)">
+                    <td>
+                      <span>{{ item.no }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.quantity }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.partNumber }}</span>
+                    </td>
+                    <td>
+                      <span [hidden]="item.inedit">{{ item.partName }}</span>
+                      <input type="text" class="form-control" minlength="0" [hidden]="!item.inedit"
+                        [(ngModel)]="item.partName" [ngModelOptions]="{ standalone: true }" />
+                    </td>
+                    <td>
+                      <span [hidden]="item.inedit">{{ item.claveUnitMeasure }}</span>
+                      <input mask="0*" class="form-control" minlength="0" [hidden]="!item.inedit"
+                        [(ngModel)]="item.claveUnitMeasure" [ngModelOptions]="{ standalone: true }" />
+                    </td>
+                    <td>
+                      <span [hidden]="item.inedit">{{ item.claveProductService }}</span>
+                      <input mask="0*" class="form-control" minlength="0" [hidden]="!item.inedit"
+                        [(ngModel)]="item.claveProductService" [ngModelOptions]="{ standalone: true }" />
+                    </td>
+                    <td class="text-center">
+                      <div id="actionEdit" [hidden]="item.inedit">
+                        <button type="button" class="btn btn-info btn-sm mr-3" title="Editar"
+                          (click)="editItem(item, i)">
+                          <span class="material-icons md-18 align-text-bottom">edit</span>
+                        </button>
+                        <button type="button" class="btn btn-info btn-sm" title="Eliminar"
+                          (click)="deleteItem(item, i)">
+                          <span class="material-icons md-18 align-text-bottom">delete</span>
+                        </button>
+                      </div>
+                      <div id="actionSave" [hidden]="!item.inedit">
+                        <button type="button" class="btn btn-danger btn-sm mr-3" title="Cerrar" (click)="cancelItem(i)">
+                          <span class="material-icons md-18 align-text-bottom">clear</span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" title="Guardar"
+                          (click)="saveItem(item, i)">
+                          <span class="material-icons md-18 align-text-bottom">save</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="listPreInvoiceTable.length === 0">
+                    <td colspan="6">
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+                          <span class="text-danger font-weight-bold">
+                            No se encontraron registros.
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row" *ngIf="listPreInvoiceTable.length > 0">
+                <ngb-pagination class="mx-4" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                  [boundaryLinks]="true" [maxSize]="10" (pageChange)="refreshItems()">
+                </ngb-pagination>
+
+                <select class="custom-select wf-auto" name="pageSize" #pageS="ngModel" [(ngModel)]="pageSize"
+                  (ngModelChange)="refreshItems()">
+                  <option [value]="itemPage" *ngFor="let itemPage of itemsPage">{{ itemPage }} items por página</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" [routerLink]="pageRedirect">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

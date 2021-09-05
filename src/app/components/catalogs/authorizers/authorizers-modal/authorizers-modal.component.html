@@ -1,0 +1,4 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-authorizers-form #authorizersForm [action]="action" [item]="item" (saveItem)="saveFormHandled($event)">
+  </app-authorizers-form>
+</app-modal-form>

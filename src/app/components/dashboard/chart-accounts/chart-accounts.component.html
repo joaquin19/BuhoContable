@@ -1,0 +1,11 @@
+<ejs-chart [title]="chartTitle" [primaryXAxis]="xAxis" [primaryYAxis]="yAxis" [legendSettings]="chartLegend"
+  [tooltip]="chartTooltip">
+  <e-series-collection>
+    <e-series type="Line" [dataSource]="data" xName="month" yName="amount" name="Cuentas por Pagar"
+      [marker]="markerSettings">
+    </e-series>
+    <e-series type="Line" [dataSource]="data1" xName="month" yName="amount" name="Cuentas por Cobrar"
+      [marker]="markerSettings">
+    </e-series>
+  </e-series-collection>
+</ejs-chart>

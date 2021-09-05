@@ -1,0 +1,212 @@
+<form #formAccountBank="ngForm">
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Datos de la Cuenta</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="name">Identificador (Nombre Corto)</label>
+        <input type="text" class="form-control" name="name" maxlength="50" [(ngModel)]="accountBank.name" #name="ngModel" disabled/>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción de la Cuenta</label>
+        <textarea class="form-control" name="description" id="description" rows="2"
+          maxlength="{{ maxLengthDescription }}" [(ngModel)]="accountBank.description" #description="ngModel" disabled></textarea>
+      </div>
+      <div class="text-right">
+        <span>
+          <strong>{{ maxLengthDescription }} </strong> /
+          {{ maxLengthDescription - accountBank.description.length }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bank">Banco</label>
+        <input type="text" class="form-control" name="bankName" maxlength="6" [(ngModel)]="accountBank.bankName" #bankName="ngModel" disabled/>
+      </div>
+    </div>  
+    
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="branchOffice">No. Sucursal</label>
+        <input type="text" class="form-control" name="branchOffice" maxlength="6" [(ngModel)]="accountBank.branchOffice" #branchOffice="ngModel" disabled/>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="currency">Moneda</label>
+        <input type="text" class="form-control" name="currencyName" maxlength="6" [(ngModel)]="accountBank.currencyName" #currencyName="ngModel" disabled/>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="accountNumber">Número de Cuenta</label>
+        <input type="text" class="form-control" name="accountNumber" maxlength="15" [(ngModel)]="accountBank.accountNumber"
+          #accountNumber="ngModel" disabled />
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="clabe">Clabe</label>
+        <input type="text" class="form-control" name="clabe" maxlength="22" [(ngModel)]="accountBank.clabe"
+          #clabe="ngModel" disabled />
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="swiftCode">Swift Code</label>
+        <input type="text" class="form-control" name="swiftCode" maxlength="15" [(ngModel)]="accountBank.swiftCode"
+          #swiftCode="ngModel" disabled/>
+      </div>
+    </div>
+    
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Contacto</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="firstName">Nombre(s)</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="accountBankContact.firstName"
+          #firstName="ngModel" maxlength="50" disabled>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="lastName">Apellido(s)</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="accountBankContact.lastName"
+          #lastName="ngModel" maxlength="50" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone1">Teléfono 1</label>
+        <input type="text" class="form-control" name="phone1" [(ngModel)]="accountBankContact.phone1" #phone1="ngModel"
+          maxlength="10" disabled>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil1">Celular 1</label>
+        <input type="text" class="form-control" name="movil1" [(ngModel)]="accountBankContact.movil1" #movil1="ngModel"
+          maxlength="10" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone2">Teléfono 2</label>
+        <input type="text" class="form-control" name="phone2" [(ngModel)]="accountBankContact.phone2" #phone2="ngModel"
+          maxlength="10" disabled>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="movil2">Celular 2</label>
+        <input type="text" class="form-control" name="movil2" [(ngModel)]="accountBankContact.movil2" #movil2="ngModel"
+          maxlength="10" disabled>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+      <label class="label-detail">Montos</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="initialBalance">Saldo Inicial</label>
+        <input type="text" class="form-control" name="initialBalance" [(ngModel)]="accountBank.initialBalance" #initialBalance="ngModel"
+          maxlength="50" disabled>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="checkNumber">Siguiente Cheque</label>
+        <input type="text" class="form-control" name="checkNumber" [(ngModel)]="accountBank.checkNumber" #checkNumber="ngModel"
+          maxlength="50" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <label class="label-detail" for="charge">Total Cargos</label>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 text-left">
+      <label class="font-weight-bold" > {{accountBank.charge}} </label>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <label class="label-detail" for="credit">Total Abonos</label>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 text-left">
+      <label class="font-weight-bold" > {{accountBank.credit}} </label>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <label class="label-detail" for="balance">Saldo Actual</label>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 text-left">
+      <label class="font-weight-bold" > {{accountBank.balance}} </label>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+      <label class="label-detail" for="total">Saldo Conciliado</label>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 text-left">
+      <label class="font-weight-bold" > {{accountBank.total}} </label>
+      </div>
+  </div>
+
+
+</form>

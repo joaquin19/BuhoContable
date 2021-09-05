@@ -1,0 +1,4 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-articles-form #articlesForm [action]="action" [item]="item" (saveItem)="saveFormHandled($event)">
+  </app-articles-form>
+</app-modal-form>

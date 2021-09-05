@@ -1,0 +1,7 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <button type="button" class="btn btn-success mb-4" (click)="onClickImport()"  >{{buttonImport}}</button>
+  <app-products-form  *ngIf="!changeToImport" #productsForm [action]="action" [item]="item" (saveItem)="saveFormHandled($event)">
+  </app-products-form>
+  <app-products-import *ngIf="changeToImport" #productsImport [action]="action" [item]="item" (saveItem)="saveExportProducts($event)">
+  </app-products-import>
+</app-modal-form>

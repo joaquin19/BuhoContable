@@ -1,0 +1,130 @@
+<form #formPurchaseOrderEdition="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="articleId">Artículo</label>
+        <ejs-dropdownlist #articleObj #articleId="ngModel" [(ngModel)]="purchaseOrderEdition.articleId" id="articleId"
+          name="articleId" [dataSource]="listArticles" [fields]="{ text: 'fullName', value: 'id' }"
+          (filtering)="filteringArticles($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione un artículo'" [showClearButton]="true"
+          (change)="changeArticle()" required [readonly]="isReadOnly">
+        </ejs-dropdownlist>
+        <div *ngIf="(articleId.dirty || articleId.touched || submittedPurchaseOrderEdition) && !articleId.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!articleId.errors?.required">
+            Artículo es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="description">Descripción</label>
+        <textarea class="form-control" name="description" id="description" rows="3"
+          maxlength="{{ maxLengthDescription }}" [(ngModel)]="purchaseOrderEdition.description" #description="ngModel"
+          disabled></textarea>
+      </div>
+      <div class="text-right">
+        <span>
+          <strong>{{ maxLengthDescription }} </strong> /
+          {{ maxLengthDescription - purchaseOrderEdition.description.length }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="dimension">Dimensión</label>
+        <input type="text" class="form-control" name="dimension" [(ngModel)]="purchaseOrderEdition.dimension"
+          #dimension="ngModel" maxlength="30">
+        <div *ngIf="(dimension.dirty || dimension.touched || submittedPurchaseOrderEdition) && !dimension.valid"
+          class="alert alert-danger">
+          <div *ngIf="dimension.errors?.required">
+            Dimensión es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitMeasureName">Unidad de Medida</label>
+        <input type="text" class="form-control" name="unitMeasureName"
+          [(ngModel)]="purchaseOrderEdition.unitMeasureName" #unitMeasureName="ngModel" maxlength="30" readonly>
+        <div
+          *ngIf="(unitMeasureName.dirty || unitMeasureName.touched || submittedPurchaseOrderEdition) && !unitMeasureName.valid"
+          class="alert alert-danger">
+          <div *ngIf="unitMeasureName.errors?.required">
+            Unidad de Medida es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="quantity">Cantidad</label>
+        <input type="text" class="form-control" name="quantity" [(ngModel)]="purchaseOrderEdition.quantity"
+          #quantity="ngModel" maxlength="30" (input)="blurQuantity($event)" required>
+        <div *ngIf="(quantity.dirty || quantity.touched || submittedPurchaseOrderEdition) && !quantity.valid"
+          class="alert alert-danger">
+          <div *ngIf="quantity.errors?.required">
+            Cantidad es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="unitPrice">Precio Unitario</label>
+        <input type="text" class="form-control" name="unitPrice" [(ngModel)]="purchaseOrderEdition.unitPrice"
+          #unitPrice="ngModel" maxlength="30" (blur)="blurUnitPrice($event)" required>
+        <div *ngIf="(unitPrice.dirty || unitPrice.touched || submittedPurchaseOrderEdition) && !unitPrice.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!unitPrice.errors?.required">
+            Precio Unitario es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="subTotal">Sub Total</label>
+        <input type="text" class="form-control" name="subTotal" [(ngModel)]="purchaseOrderEdition.subTotal"
+          #subTotal="ngModel" maxlength="30" readonly required>
+        <div *ngIf="(subTotal.dirty || subTotal.touched || submittedPurchaseOrderEdition) && !subTotal.valid"
+          class="alert alert-danger">
+          <div *ngIf="subTotal.errors?.required">
+            Sub Total es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="total">Total</label>
+        <input type="text" class="form-control" name="total" [(ngModel)]="purchaseOrderEdition.total" #total="ngModel"
+          maxlength="30" readonly required>
+        <div *ngIf="(total.dirty || total.touched || submittedPurchaseOrderEdition) && !total.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!total.errors?.required">
+            Total es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,98 @@
+<form class="my-3" #formBusinessDomicile="ngForm">
+
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="street">Calle y número</label>
+        <input type="text" class="form-control" name="street" [(ngModel)]="domicile.street"
+          #street="ngModel" maxlength="150">
+        <div *ngIf="(street.dirty || street.touched || submitted) && !street.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!street.errors?.required">
+            Calle y número es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="neighborhoodName">Colonia</label>
+        <input type="text" class="form-control" name="neighborhoodName"
+          [(ngModel)]="domicile.neighborhoodName" #neighborhoodName="ngModel" maxlength="50">
+        <div
+          *ngIf="(neighborhoodName.dirty || neighborhoodName.touched || submitted) && !neighborhoodName.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!neighborhoodName.errors?.required">
+            Colonia es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="zipCode">C.P.</label>
+        <input mask="0*" class="form-control" name="zipCode" [(ngModel)]="domicile.zipCode"
+          #zipCode="ngModel" maxlength="6">
+        <div *ngIf="(zipCode.dirty || zipCode.touched || submitted) && !zipCode.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!zipCode.errors?.required">
+            C.P. es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="country">País</label>
+        <ejs-dropdownlist #countryObj #country="ngModel" [(ngModel)]="domicile.countryId" name="country"
+          [dataSource]="listCountries" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCountry($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione un país'" [showClearButton]="true"
+          (change)="changeCountry()">
+        </ejs-dropdownlist>
+        <div *ngIf="(country.dirty || country.touched || submitted) && !country.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!country.errors?.required">
+            País es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="stateProvince">Estado</label>
+        <ejs-dropdownlist #stateProvinceObj #stateProvince="ngModel" [(ngModel)]="domicile.stateProvinceId"
+          name="stateProvince" [dataSource]="listStatesProvinces" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringStatesProvinces($event)" [filterBarPlaceholder]="'Buscar'"
+          [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un estado'"
+          [showClearButton]="true" (change)="changeStatesProvinces()">
+        </ejs-dropdownlist>
+        <div *ngIf="(stateProvince.dirty || stateProvince.touched || submitted) && !stateProvince.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!stateProvince.errors?.required">
+            Estado es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="city">Ciudad</label>
+        <ejs-dropdownlist #cityObj #city="ngModel" [(ngModel)]="domicile.cityId" name="city"
+          [dataSource]="listCities" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCities($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una ciudad'" [showClearButton]="true">
+        </ejs-dropdownlist>
+        <div *ngIf="(city.dirty || city.touched || submitted) && !city.valid" class="alert alert-danger">
+          <div *ngIf="!!city.errors?.required">
+            Ciudad es <strong>requerida</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

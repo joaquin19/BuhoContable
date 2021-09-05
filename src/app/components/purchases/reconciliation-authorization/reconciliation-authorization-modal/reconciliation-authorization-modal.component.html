@@ -1,0 +1,6 @@
+<app-modal-authorization-form #modalAuthorizationForm [title]="title" (closeAuthorizationForm)="closeHandled()"
+  (authorizeModalAuthorizationForm)="authorizeHandled()" (rejectModalAuthorizationForm)="rejectHandled()">
+  <app-reconciliation-authorization-form #reconciliationAuthorizationForm [action]="action" [items]="items"
+    (saveItem)="saveFormHandled($event)">
+  </app-reconciliation-authorization-form>
+</app-modal-authorization-form>

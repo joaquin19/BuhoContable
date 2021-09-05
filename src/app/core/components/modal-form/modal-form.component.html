@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+</div>
+<div class="modal-body">
+  <ng-content></ng-content>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="closeModal()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-success" (click)="saveModal()">
+    Guardar
+  </button>
+</div>

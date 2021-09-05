@@ -1,0 +1,69 @@
+<form #formUser="ngForm">
+  <div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="firstName">Nombre(s)</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel"
+          maxlength="50" appAutofocus required>
+        <div *ngIf="(firstName.dirty || firstName.touched || submitted) && !firstName.valid" class="alert alert-danger">
+          <div *ngIf="!!firstName.errors?.required">
+            Nombre es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="lastName">Apellido(s)</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel"
+          maxlength="50" required>
+        <div *ngIf="(lastName.dirty || lastName.touched || submitted) && !lastName.valid" class="alert alert-danger">
+          <div *ngIf="!!lastName.errors?.required">
+            Apellido es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Correo</label>
+        <div class="input-group">
+          <span class="input-group-text">@</span>
+          <input type="text" class="form-control" name="email" [(ngModel)]="user.email" #email="ngModel" maxlength="70"
+            required [readOnly]="editUser">
+        </div>
+        <div *ngIf="(email.dirty || email.touched || submitted) && !email.valid" class="alert alert-danger">
+          <div *ngIf="!!email.errors?.required">
+            Correo es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Perfil</label>
+        <ejs-dropdownlist #profileObj #profile="ngModel" [(ngModel)]="user.profileId" id="profile" name="profile"
+          [dataSource]="listProfiles" [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringProfile($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un perfil'" [showClearButton]="true" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(profile.dirty || profile.touched || submitted) && !profile.valid" class="alert alert-danger">
+          <div *ngIf="!!profile.errors?.required">
+            Perfil es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" *ngIf="editUser">
+      <button type="button" class="btn btn-secondary" (click)="resetPassword()">
+        Restablecer Contraseña
+      </button>
+    </div>
+
+  </div>
+</form>

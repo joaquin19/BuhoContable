@@ -1,0 +1,32 @@
+<div class="row mb-3">
+  <div class="col-lg-6 col-sm-6 col-md-6 text-left">
+    <button type="button" class="btn btn-info mr-3" title="Actualizar" (click)="getBusiness();">
+      <span class="material-icons md-18 align-text-bottom">refresh</span> Actualizar
+    </button>
+  </div>
+  <div class="col-lg-6 col-sm-6 col-md-6 text-right">
+    <button type="button" class="btn btn-info" title="Nuevo" routerLink="addBusiness">
+      <span class="material-icons md-18 align-text-bottom">add</span> Nuevo
+    </button>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-lg-3 col-sm-3 col-md-3 mb-3" *ngFor="let item of listBusiness; let i = index">
+    <div class="card" >
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{item.status}}</h6>
+        <p class="card-text">{{item.description}}</p>
+        <div class="row col-lg-12 col-sm-12 col-md-12">
+          <button type="button" class="btn btn-info btn-sm mr-2" title="Editar" routerLink="editBusiness/{{ item.id }}">
+            <span class="material-icons md-18 align-text-bottom">edit</span>
+          </button>
+          <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="confirmDelete(item)">
+            <span class="material-icons md-18 align-text-bottom">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

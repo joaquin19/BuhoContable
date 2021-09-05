@@ -1,0 +1,215 @@
+<form #formPurchaseOrdersReceivedEdition="ngForm">
+
+  <div class="row mb-3">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-left">
+      <h2>Folio: {{ purchaseOrdersReceivedEdition.folio }} </h2>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="font-weight-bold">PROVEEDOR</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierName">Proveedor</label>
+              <input type="text" class="form-control" name="supplierName" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.supplierName" #supplierName="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="estimatedDate">Fecha Estimada</label>
+              <input type="text" class="form-control" name="estimatedDate" id="estimatedDate" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.estimatedDate" #estimatedDate="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierContactName">Contacto</label>
+              <input type="text" class="form-control" name="supplierContactName" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.supplierContactName" #supplierContactName="ngModel"
+                disabled />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentType">Condiciones de Pago</label>
+              <input type="text" class="form-control" name="paymentType" id="paymentType" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.paymentTypeName" #paymentType="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierPhone">Teléfono</label>
+              <input type="text" class="form-control" name="supplierPhone" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.supplierPhone" #supplierPhone="ngModel" disabled />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentTypeName">Tipo de Pago</label>
+              <input type="text" class="form-control" name="paymentTypeName" id="paymentTypeName" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.paymentTypeName" #paymentTypeName="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="period">Periodo</label>
+              <input type="text" class="form-control" name="period" maxlength="50"
+                [(ngModel)]="purchaseOrdersReceivedEdition.period" #period="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: center;">
+            <label class="font-weight-bold">PRODUCTOS REQUERIDOS</label>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+
+            <ejs-grid #gridPurchaseOrderDetail [dataSource]="listPurchaseOrderDetail" [allowSelection]="false"
+              [enableHover]="false" rowHeight="20">
+              <e-columns>
+                <e-column *ngFor="let col of cols" [field]="col.field" [headerText]="col.header" [width]="col.width"
+                  [visible]="col.visible" clipMode='EllipsisWithTooltip' [format]="col.format"
+                  [textAlign]="col.textAlign">
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" align="right">
+            <p class="font-weight-bold m-3">
+              SUB TOTAL: {{subTotal}}
+            </p>
+          </div>
+        </div>
+        <div class="row" *ngFor="let colT of listTaxesAdded">
+          <div class="col-lg-12" align="right">
+            <p class="font-weight-bold m-3">
+              {{colT.name}}: {{colT.amount}}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" align="right">
+            <p class="font-weight-bold m-3">
+              TOTAL: {{total}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="notes">Notas</label>
+              <textarea class="form-control" name="notes" id="notes" rows="3"
+                [(ngModel)]="purchaseOrdersReceivedEdition.notes" #notes="ngModel" disabled></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="observations">Observaciones</label>
+              <textarea class="form-control" name="observations" id="observations" rows="3"
+                [(ngModel)]="purchaseOrdersReceivedEdition.observations" #observations="ngModel" disabled></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentReference">Referencia de Pago</label>
+              <input type="text" class="form-control" name="paymentReference"
+                [(ngModel)]="purchaseOrdersReceivedEdition.paymentReference" #paymentReference="ngModel" maxlength="18"
+                required>
+              <div *ngIf="(paymentReference.dirty || paymentReference.touched || submitted) && !paymentReference.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!paymentReference.errors?.required">
+                  Referencia de Pago es <strong>requerido</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="bank">Banco</label>
+              <ejs-dropdownlist #bankObj #bank="ngModel" [(ngModel)]="purchaseOrdersReceivedEdition.bankId" name="bank"
+                [dataSource]="listBanks" [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBank($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione un banco'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(bank.dirty || bank.touched || submitted) && !bank.valid" class="alert alert-danger">
+                <div *ngIf="!!bank.errors?.required">
+                  Banco es <strong>requerido</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="status">Estatus</label>
+              <ejs-dropdownlist #statusObj #status="ngModel"
+                [(ngModel)]="purchaseOrdersReceivedEdition.accountPayableStatusId" name="status"
+                [dataSource]="listAccountPayableStatus" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringStatus($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un estatus'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(status.dirty || status.touched || submitted) && !status.valid" class="alert alert-danger">
+                <div *ngIf="!!status.errors?.required">
+                  Estatus es <strong>requerido</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</form>

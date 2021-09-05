@@ -1,0 +1,32 @@
+<div class="row" *ngIf="item.createdOn != ''">
+  <div class="col-lg-12 col-sm-12 col-md-12">
+
+    <div class="container">
+      <h3 class="card-title">Seguimiento de Estatus</h3>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="main-timeline">
+                  <a class="timeline col-lg-12 col-sm-12 col-md-12">
+                      <div class="timeline-icon "><span class="material-icons md-18 align-text-bottom">add</span></div>
+                      <div class="timeline-content">
+                          <h3 class="title">{{ item.createBy }} - Creada</h3>
+                          <p class="description">
+                            <b>Fecha creación:</b> {{ item.createdOn }}                            
+                          </p>
+                      </div>
+                  </a>
+                   <a *ngFor="let auditTrail of listAuditTrail; " class="timeline {{ auditTrail.authorizationStatusId  == 2 ? 'audit-trail-authorized' : 'audit-trail-reject'}}  col-lg-12 col-sm-12 col-md-12" >
+                      <div class="timeline-icon"><span class="material-icons md-18 align-text-bottom">{{ auditTrail.authorizationStatusId  == 2 ? 'done' : 'clear'}}</span></div>
+                      <div class="timeline-content">
+                          <h3 class="title">{{ auditTrail.fullName }} - {{ auditTrail.authorizationStatusName }}</h3>
+                          <p class="description">
+                            <b>Fecha:</b> {{ auditTrail.createdOn }}<br>
+                            <b>Observaciones:</b> {{ auditTrail.observation === null ? 'Sin Observaciones' : auditTrail.observation }}
+                          </p>
+                      </div>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

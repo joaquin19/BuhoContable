@@ -1,0 +1,332 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<form #formRemission="ngForm">
+  <div class="row mt-3 mb-3 mx-0">
+    <div class="card w-100">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Tipo de Remisión</label>
+              <div class="form-control">
+                <label class="radio-inline mr-3">
+                  <input type="radio" name="priceType" [value]="orderTypeCustomer" #priceTypeId="ngModel"
+                    [(ngModel)]="remission.orderTypeId" (change)="changeOrderType()" [attr.disabled]="isReadOnly">
+                  Cliente
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="priceType" [value]="orderTypeProject" #priceTypeId="ngModel"
+                    [(ngModel)]="remission.orderTypeId" (change)="changeOrderType()" [attr.disabled]="isReadOnly">
+                  Proyecto
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="remission.orderTypeId === orderTypeCustomer">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customer">Cliente</label>
+              <ejs-dropdownlist #customerObj #customer="ngModel" [(ngModel)]="remission.customerId" id="customer"
+                name="customer" [dataSource]="listCustomers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCustomer($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Cliente'" [showClearButton]="true" required
+                (change)="changeCustomer()" [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(customer.dirty || customer.touched || submitted) && !customer.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!customer.errors?.required">
+                  Cliente es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="remission.orderTypeId === orderTypeProject">
+            <div class="form-group">
+              <label class="font-weight-bold" for="project">Proyecto</label>
+              <ejs-dropdownlist #projectObj #project="ngModel" [(ngModel)]="remission.projectId" id="project"
+                name="project" [dataSource]="listProjects" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringProject($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un Proyecto'" [showClearButton]="true" required
+                (change)="changeProject()" [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(project.dirty || project.touched || submitted) && !project.valid" class="alert alert-danger">
+                <div *ngIf="!!project.errors?.required">
+                  Proyecto es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="price">Lista de Precio</label>
+              <ejs-dropdownlist #priceObj #price="ngModel" [(ngModel)]="remission.priceHeaderId" id="price" name="price"
+                [dataSource]="listPrices" [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringPrice($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione una Lista de Precios'" [showClearButton]="true" required
+                (change)="changePrice()" [readonly]="isReadOnly">
+              </ejs-dropdownlist>
+              <div *ngIf="(price.dirty || price.touched || submitted) && !price.valid" class="alert alert-danger">
+                <div *ngIf="!!price.errors?.required">
+                  Lista de Precio es <strong>requerida *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="address">Dirección</label>
+              <input type="text" class="form-control" name="address" maxlength="255" [(ngModel)]="remission.address"
+                #address="ngModel" />
+              <div *ngIf="(address.dirty || address.touched) && !address.valid" class="alert alert-danger">
+                <div *ngIf="address.errors?.required">
+                  Direccion es <strong>requerido *</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="shippingAddress">Enviar A</label>
+              <input type="text" class="form-control" name="shippingAddress" maxlength="255"
+                [(ngModel)]="remission.shippingAddress" #shippingAddress="ngModel" />
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="endDate">Fecha de Entrega</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" #shippingD name="shippingDate"
+                  [(ngModel)]="shippingDate" ngbDatepicker #sd="ngbDatepicker" readonly required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()" type="button">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="noOrder">No. Orden</label>
+              <input type="text" class="form-control" name="noOrder" maxlength="50" [(ngModel)]="remission.noOrder"
+                #noOrder="ngModel" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="customerCustomName">Nombre Cliente</label>
+              <input type="text" class="form-control" name="customerCustomName" maxlength="50"
+                [(ngModel)]="remission.customerCustomName" #customerCustomName="ngModel" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="noOrderCustomer">No. Orden Cliente</label>
+              <input type="text" class="form-control" name="noOrderCustomer" maxlength="50"
+                [(ngModel)]="remission.noOrderCustomer" #noOrderCustomer="ngModel" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="tarima">Tarima</label>
+              <input type="text" class="form-control" name="tarima" maxlength="50" [(ngModel)]="remission.tarima"
+                #tarima="ngModel" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="totalPieces">Total Piezas</label>
+              <input mask="0*" min="0" class="form-control" name="totalPieces" [(ngModel)]="remission.totalPieces"
+                #totalPieces="ngModel" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12 text-right">
+            <button type="button" class="btn btn-info" title="Agregar Productos" (click)="addNewItem()">
+              <span class="material-icons md-18 align-text-bottom">add</span> Agregar Productos
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col" *ngFor="let column of columnsHeader">
+                      <div class="{{ column.classStyle }}">{{ column.text }}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="newItem">
+                    <td></td>
+                    <td>
+                      <input type="text" class="form-control" name="partNumber" #partNumber="ngModel"
+                        [(ngModel)]="newItemAdd.partNumber" (blur)="blurPartNumber()" required />
+                      <div *ngIf="(partNumber.dirty || partNumber.touched || submittedItemAdd) && !partNumber.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="partNumber.errors?.required">
+                          No. Parte es <strong>requerido</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="partName" #partName="ngModel"
+                        [(ngModel)]="newItemAdd.partName" required />
+                      <div *ngIf="(partName.dirty || partName.touched || submittedItemAdd) && !partName.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="partName.errors?.required">
+                          Descripción de Parte es <strong>requerido</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input mask="0*" class="form-control" minlength="1" name="stdPack" #stdPack="ngModel"
+                        [(ngModel)]="newItemAdd.stdPack" />
+                      <div *ngIf="(stdPack.dirty || stdPack.touched || submittedItemAdd) && !stdPack.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="quantity.errors?.required">
+                          StdPack es <strong>requerido</strong>
+                        </div>
+                        <div *ngIf="stdPack.errors?.minlength">
+                          StdPack debe ser <strong>mayor a 0</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input mask="0*" class="form-control" minlength="1" name="quantity" #quantity="ngModel"
+                        [(ngModel)]="newItemAdd.quantity" required />
+                      <div *ngIf="(quantity.dirty || quantity.touched || submittedItemAdd) && !quantity.valid"
+                        class="alert alert-danger">
+                        <div *ngIf="quantity.errors?.required">
+                          Cantidad es <strong>requerida</strong>
+                        </div>
+                        <div *ngIf="quantity.errors?.minlength">
+                          Cantidad debe ser <strong>mayor a 0</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span>{{ newItemAdd.boxes }}</span>
+                    </td>
+                    <td>
+                      <div id="actionSaveNew" class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm mr-3" title="Cerrar"
+                          (click)="cancelItemAdd()">
+                          <span class="material-icons md-18 align-text-bottom">clear</span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" title="Guardar" (click)="saveItemAdd()">
+                          <span class="material-icons md-18 align-text-bottom">save</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let item of listRemissions; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <span>{{ item.partNumber }}</span>
+                    </td>
+                    <td>
+                      <span>{{ item.partName }}</span>
+                    </td>
+                    <td class="text-center">
+                      <span [hidden]="item.inedit">{{ item.stdPack }}</span>
+                      <input mask="0*" class="form-control" [hidden]="!item.inedit" [(ngModel)]="item.stdPack"
+                        [ngModelOptions]="{ standalone: true }" />
+                      <div *ngIf="validationRequiredContol(item.stdPack) && submittedItemAdd"
+                        class="alert alert-danger">
+                        Cantidad es <strong>requerida</strong>
+                      </div>
+                      <div *ngIf="validationMinlengthContol(item.stdPack) && submittedItemAdd"
+                        class="alert alert-danger">
+                        Cantidad debe ser <strong>mayor a 0</strong>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <span [hidden]="item.inedit">{{ item.quantity }}</span>
+                      <input mask="0*" class="form-control" minlength="0" [hidden]="!item.inedit"
+                        [(ngModel)]="item.quantity" [ngModelOptions]="{ standalone: true }" />
+                      <div *ngIf="validationRequiredContol(item.quantity) && submittedItemAdd"
+                        class="alert alert-danger">
+                        Cantidad es <strong>requerida</strong>
+                      </div>
+                      <div *ngIf="validationMinlengthContol(item.quantity) && submittedItemAdd"
+                        class="alert alert-danger">
+                        Cantidad debe ser <strong>mayor a 0</strong>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <span>{{  item.boxes }}</span>
+                    </td>
+                    <td class="text-center">
+                      <div id="actionEdit" [hidden]="item.inedit">
+                        <button type="button" class="btn btn-info btn-sm mr-3" title="Editar"
+                          (click)="editItem(item, i)">
+                          <span class="material-icons md-18 align-text-bottom">edit</span>
+                        </button>
+                        <button type="button" class="btn btn-info btn-sm" title="Eliminar" (click)="deleteItem(i)">
+                          <span class="material-icons md-18 align-text-bottom">delete</span>
+                        </button>
+                      </div>
+                      <div id="actionSave" [hidden]="!item.inedit">
+                        <button type="button" class="btn btn-danger btn-sm mr-3" title="Cerrar" (click)="cancelItem(i)">
+                          <span class="material-icons md-18 align-text-bottom">clear</span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" title="Guardar"
+                          (click)="saveItem(item, i)">
+                          <span class="material-icons md-18 align-text-bottom">save</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="listRemissions.length === 0">
+                    <td colspan="6">
+                      <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
+                          <span class="text-danger font-weight-bold">
+                            No se encontraron registros.
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" routerLink="/sales/remissions">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

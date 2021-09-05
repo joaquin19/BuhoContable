@@ -1,0 +1,452 @@
+<app-header-content [titleHeader]="titleHeader"></app-header-content>
+
+<h2> {{ purchaseOrder.folio }} </h2>
+
+<div class="row mt-3 mb-3 mx-0">
+  <div class="card w-100">
+    <div class="card-body">
+
+      <form #formPurchaseOrder="ngForm">
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="purchaseOrderTypes">Tipo Orden de Compra</label>
+              <ejs-dropdownlist #purchaseOrderTypeObj #purchaseOrderTypeId="ngModel"
+                [(ngModel)]="purchaseOrder.purchaseOrderTypeId" id="purchaseOrderTypeId" name="purchaseOrderTypeId"
+                [dataSource]="listPurchaseOrderTypes" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringPurchaseOrderTypes($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de orden de compra'"
+                [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(purchaseOrderTypeId.dirty || purchaseOrderTypeId.touched) && !purchaseOrderTypeId.valid"
+                class="alert alert-danger">
+                <div *ngIf="purchaseOrderTypeId.errors?.required">
+                  Tipo Orden de Compra es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentTypes">Tipo de Pago</label>
+              <ejs-dropdownlist #paymentTypeObj #paymentTypeId="ngModel" [(ngModel)]="purchaseOrder.paymentTypeId"
+                id="paymentTypeId" name="paymentTypeId" [dataSource]="listPaymentTypes"
+                [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringPaymentTypes($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione una unidad de negocio'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(paymentTypeId.dirty || paymentTypeId.touched) && !paymentTypeId.valid"
+                class="alert alert-danger">
+                <div *ngIf="paymentTypeId.errors?.required">
+                  Tipo de Pago es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="suppliers">Proveedor</label>
+              <ejs-dropdownlist #supplierObj #supplierId="ngModel" [(ngModel)]="purchaseOrder.supplierId"
+                id="supplierId" name="supplierId" [dataSource]="listSuppliers" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringSuppliers($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+                [ignoreAccent]="true" [placeholder]="'Seleccione un proveedor'" [showClearButton]="true"
+                (change)="changeSupplier()" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(supplierId.dirty || supplierId.touched) && !supplierId.valid" class="alert alert-danger">
+                <div *ngIf="supplierId.errors?.required">
+                  Proveedor es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="supplierContacts">Contacto Proveedor</label>
+              <ejs-dropdownlist #supplierContactObj #supplierContactId="ngModel"
+                [(ngModel)]="purchaseOrder.supplierContactId" id="supplierContactId" name="supplierContactId"
+                [dataSource]="listSupplierContacts" [fields]="{ text: 'fullName', value: 'id' }"
+                (filtering)="filteringSupplierContacts($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione una unidad de negocio'"
+                [showClearButton]="true">
+              </ejs-dropdownlist>
+              <div
+                *ngIf="(supplierContactId.dirty || supplierContactId.touched || submitted) && !supplierContactId.valid"
+                class="alert alert-danger">
+                <div *ngIf="supplierContactId.errors?.required">
+                  Contacto Proveedor es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="businessUnits">Unidad de Negocio</label>
+              <ejs-dropdownlist #businessUnitObj #businessUnitId="ngModel" [(ngModel)]="purchaseOrder.businessUnitId"
+                id="businessUnitId" name="businessUnitId" [dataSource]="listBusinessUnits"
+                [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBusinessUnits($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione una unidad de negocio'" [showClearButton]="true"
+                (change)="changeBusinessUnit()" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(businessUnitId.dirty || businessUnitId.touched) && !businessUnitId.valid"
+                class="alert alert-danger">
+                <div *ngIf="businessUnitId.errors?.required">
+                  Unidad de Negocio es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group content">
+              <label class="font-weight-bold" for="costCenters">Centro de Costo</label>
+              <ejs-dropdownlist #costCenterObj #costCenterId="ngModel" [(ngModel)]="purchaseOrder.costCenterId"
+                id="costCenterId" name="costCenterId" [dataSource]="listCostCenters"
+                [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringCostCenters($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione un centro de costo'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(costCenterId.dirty || costCenterId.touched) && !costCenterId.valid"
+                class="alert alert-danger">
+                <div *ngIf="costCenterId.errors?.required">
+                  Centro de Costo es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="costTypes">Tipo de Costo</label>
+              <ejs-dropdownlist #costTypeObj #costTypeId="ngModel"
+                [(ngModel)]="purchaseOrder.costTypeId" id="costTypeId" name="costTypeId"
+                [dataSource]="listCostTypes" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringCostTypes($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione un tipo de costo'"
+                [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(costTypeId.dirty || costTypeId.touched) && !costTypeId.valid"
+                class="alert alert-danger">
+                <div *ngIf="costTypeId.errors?.required">
+                  Tipo de Costo es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="purchaseOrder.purchaseOrderTypeId == purchaseOrderType.StandardProjectCustomer ">
+            <div class="form-group">
+              <label class="font-weight-bold" for="projectId"  >Proyecto / Cliente</label>
+              <ejs-dropdownlist #projectObj #projectId="ngModel"
+                [(ngModel)]="purchaseOrder.projectId" id="projectId" name="projectId"
+                [dataSource]="listProjects" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringProjects($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione proyecto/cliente'"
+                [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(projectId.dirty || projectId.touched) && !projectId.valid"
+                class="alert alert-danger">
+                <div *ngIf="projectId.errors?.required">
+                  Proyecto / Cliente es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="purchaseOrder.purchaseOrderTypeId != purchaseOrderType.StandardProjectCustomer">
+            <div class="form-group">
+              <label class="font-weight-bold" for="detail">Detalle</label>
+              <input type="text" class="form-control" name="detail" maxlength="60"
+                [(ngModel)]="purchaseOrder.detail" #detail="ngModel" required/>
+              <div *ngIf="(detail.dirty || detail.touched) && !detail.valid"
+                class="alert alert-danger">
+                <div *ngIf="detail.errors?.required">
+                  Detalle es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="date">Fecha Estimada</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="estimatedDate" [(ngModel)]="estimatedDate"
+                  ngbDatepicker #d="ngbDatepicker" required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <span class="material-icons md-18 align-text-bottom">event</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="date">Fecha Inicio y Fin de Periodo</label>
+              <div id="control_wrapper" class="format">
+                <ejs-daterangepicker #dateformat [format]="format" [startDate]="startDate" [endDate]="endDate">
+                </ejs-daterangepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="exchangeRateValue">Moneda</label>
+              <ejs-dropdownlist #currencyObj #currencyId="ngModel" [(ngModel)]="purchaseOrder.currencyId"
+                id="currencyId" name="currencyId" [dataSource]="listCurrencies"
+                [fields]="{ text: 'fullName', value: 'id' }" (filtering)="filteringCurrencies($event)"
+                [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+                [placeholder]="'Seleccione un tipo de moneda'" [showClearButton]="true" required>
+              </ejs-dropdownlist>
+              <div *ngIf="(currencyId.dirty || currencyId.touched || submitted) && !currencyId.valid"
+                class="alert alert-danger">
+                <div *ngIf="currencyId.errors?.required">
+                  Moneda es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="paymentTerm">Condiciones de Pago</label>
+              <ejs-dropdownlist #paymentTermObj #paymentTerm="ngModel"
+                [(ngModel)]="purchaseOrder.paymentTermId" name="paymentTerm"
+                [dataSource]="listSupplierPaymentTerm" [fields]="{ text: 'name', value: 'id' }"
+                (filtering)="filteringSupplierPaymentTerms($event)" [filterBarPlaceholder]="'Buscar'"
+                [allowFiltering]="true" [ignoreAccent]="true" [placeholder]="'Seleccione condiciones de pago'"
+                [showClearButton]="true">
+              </ejs-dropdownlist>
+              <div
+                *ngIf="(paymentTerm.dirty || paymentTerm.touched || submitted) && !paymentTerm.valid"
+                class="alert alert-danger">
+                <div *ngIf="!!paymentTerm.errors?.required">
+                  Condiciones de Pago es <strong>requerido</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="previousAmount">Monto Anterior</label>
+              <input type="text" class="form-control" name="previousAmount" maxlength="60"
+                [(ngModel)]="purchaseOrder.previousAmount" #previousAmount="ngModel" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3 ng-star-inserted">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <button type="button" class="btn btn-info" title="Agregar Artículo"
+              (click)="openModalPurchaseOrderEdition(actionModal.Create, {})">
+              <span class="material-icons md-18 align-text-bottom">add</span> Agregar Artículo
+            </button>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listPurchaseOrderEdition.length > 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <ejs-grid #gridPurchaseOrderEdition [dataSource]="listPurchaseOrderEdition" [allowPaging]="false"
+              [allowSorting]="true" [allowFiltering]="true" [filterSettings]="filterOptionsPurchaseOrderEdition"
+              [pageSettings]="pageSettingsPurchaseOrderEdition" [gridLines]="gridLinesPurchaseOrderEdition"
+              rowHeight="20">
+              <e-columns>
+                <e-column *ngFor="let col of colsPurchaseOrderEdition" [field]="col.field" [headerText]="col.headerText"
+                  [width]="col.width" [filter]="filterGridPurchaseOrderEdition" [visible]="col.visible"
+                  [format]="col.format" clipMode='EllipsisWithTooltip'></e-column>
+                <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+                  <ng-template #template let-data>
+                    <button type="button" class="btn btn-info btn-sm" title="Editar"
+                      (click)="editItemPurchaseOrder(data)">
+                      <span class="material-icons md-18 align-text-bottom">edit</span>
+                    </button>
+                  </ng-template>
+                </e-column>
+                <e-column field="" headerText="" width="60" minWidth="60" headerTextAlign="center" textAlign="center">
+                  <ng-template #template let-data>
+                    <button type="button" class="btn btn-info btn-sm" title="Eliminar"
+                      (click)="confirmDeleteItemPurchaseOrder(data)">
+                      <span class="material-icons md-18 align-text-bottom">delete</span>
+                    </button>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+        <div class="row" *ngIf="listPurchaseOrderEdition.length > 0">
+          <div class="col-lg-5 col-md-6 col-sm-6" align="right" style="margin-left: 100px;">
+            <p class="font-weight-bold m-3">
+              CANTIDAD: {{ quantityTotal }}
+            </p>
+          </div>
+          <div class="col-lg-4 col-md-5 col-sm-4" align="right">
+            <p class="font-weight-bold m-3">
+              SUB TOTAL: {{subTotal}}
+            </p>
+          </div>
+        </div>
+        <div class="row" *ngFor="let colT of listTaxesAdded">
+          <div class="col-lg-9 col-md-11 col-sm-10" align="right" style="margin-left: 100px;">
+            <p class="font-weight-bold m-3">
+              {{colT.name}}: {{colT.amount}}
+            </p>
+          </div>
+        </div>
+        <div class="row" *ngIf="listPurchaseOrderEdition.length > 0">
+          <div class="col-lg-9 col-md-11 col-sm-10" align="right" style="margin-left: 100px;">
+            <p class="font-weight-bold m-3">
+              TOTAL: {{total}}
+            </p>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="listPurchaseOrderEdition.length === 0">
+          <div class="col-lg-12 col-sm-12 col-md-12">
+            <span class="text-danger font-weight-bold">
+              No se han agregado registros.
+            </span>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="notes">Notas</label>
+              <textarea class="form-control" name="notes" id="notes" rows="3" [maxlength]="maxLengthNotes"
+                [(ngModel)]="purchaseOrder.notes" #notes="ngModel"></textarea>
+            </div>
+            <div class="text-right">
+              <span>
+                <strong>{{ maxLengthNotes }} </strong> / {{ (maxLengthNotes - purchaseOrder.notes.length) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+              <label class="font-weight-bold" for="observations">Observaciones</label>
+              <textarea class="form-control" name="observations" id="observations" rows="3"
+                maxlength="{{ maxLengthObservations }}" [(ngModel)]="purchaseOrder.observations"
+                #observations="ngModel"></textarea>
+            </div>
+            <div class="text-right">
+              <span>
+                <strong>{{ maxLengthObservations }} </strong> /
+                {{ maxLengthObservations - purchaseOrder.observations.length }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card w-100">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="form-group">
+                  <div class="form-row">
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                      <button type="button" class="btn btn-info" (click)="fileUploadImage.click()">
+                        <span class="material-icons md-18 align-text-bottom">add</span> Añadir documentos
+                      </button>
+                    </div>
+                  </div>
+                  <input type="file" id="fileUploadImage" #fileUploadImage class="d-none"
+                    (change)="documentSelect(purchaseOrderDocument.id, $event)"
+                    [accept]="purchaseOrderDocument.allowedExtensions" multiple />
+                </div>
+                <div *ngFor="let documentName of listDocumentSelected; index as i">
+                  <span class="material-icons md-28 align-text-bottom" title="Eliminar Documento"
+                    style="color: brown; cursor: pointer;" (click)="deleteDocumentSelected(i)">delete</span>
+                  <span>{{documentName}}</span>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="row" *ngIf="purchaseOrderDocument.length > 0 && purchaseOrderDocument[0].id != 0">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="font-weight-bold">Documentos Añadidos</label>
+                <div *ngFor="let document of purchaseOrderDocument; index as i">
+                  <span class="material-icons md-28 align-text-bottom" title="Descargar Documento"
+                    style="color: dodgerblue; cursor: pointer;"
+                    (click)="downloadDocument(document)">vertical_align_bottom</span>
+                  <span class="material-icons md-28 align-text-bottom" title="Eliminar Documento"
+                    style="color: brown; cursor: pointer;" (click)="confirmDeleteDocument(i)">delete</span>
+                  <span>{{document.userName}}</span>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="row" *ngIf="purchaseOrderImages.length > 0 && purchaseOrderImages[0].id != 0">
+              <div class="col-xl-3 col-lg-2 col-md-0 col-sm-0"></div>
+              <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12">
+                <ngb-carousel #carousel (slide)="onSlide($event)">
+                  <ng-template ngbSlide *ngFor="let img of purchaseOrderImages; index as i" [id]="i">
+                    <div class="picsum-img-wrapper">
+                      <img [src]="'data:image/png;base64,'+img.imageBase64" alt="Random first slide" width="800px"
+                        height="auto">
+                    </div>
+                    <div class="carousel-caption">
+                    </div>
+                  </ng-template>
+                </ngb-carousel>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-right">
+                    <p style="color: dodgerblue;">{{imageNameSelected}}</p>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-right">
+                    <span class="material-icons md-28 align-text-bottom" title="Eliminar Imagen"
+                      style="color: brown; cursor: pointer;" (click)="confirmDeleteImage()">delete</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-xl-3 col-lg-2 col-md-0 col-sm-0"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+            <button type="button" class="btn btn-danger mr-3" routerLink="/purchases/purchase-orders">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success" [disabled]="!formPurchaseOrder.form.valid"
+              (click)="saveForm()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<app-modal-form #modalForm [title]="title" (closeForm)="closeHandled()" (saveForm)="saveHandled()">
+  <app-accounts-banks-form #accountsBanksForm [action]="action" [item]="item" (saveItem)="saveFormHandled($event)">
+  </app-accounts-banks-form>
+</app-modal-form>
+

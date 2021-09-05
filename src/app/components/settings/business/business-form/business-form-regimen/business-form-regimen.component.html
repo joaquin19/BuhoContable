@@ -1,0 +1,45 @@
+<form class="my-3" #formBusinessRegimen="ngForm">
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="invoice">Factura</label>
+        <ejs-dropdownlist #invoiceObj #invoice="ngModel" [(ngModel)]="regimen.invoiceId" name="invoice"
+          [dataSource]="listInvoice" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringInvoice($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una factura'" [showClearButton]="true">
+        </ejs-dropdownlist>
+        <div *ngIf="(invoice.dirty || invoice.touched || submitted) && !invoice.valid" class="alert alert-danger">
+          <div *ngIf="!!invoice.errors?.required">
+            Factura es <strong>requerida</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="creditNotes">Nota de Credito</label>
+        <ejs-dropdownlist #creditNoteObj #creditNotes="ngModel" [(ngModel)]="regimen.creditNotesId" name="creditNotes"
+          [dataSource]="listCreditNotes" [fields]="{ text: 'name', value: 'id' }"
+          (filtering)="filteringCreditNote($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una nota de credito'" [showClearButton]="true">
+        </ejs-dropdownlist>
+        <div *ngIf="(creditNotes.dirty || creditNotes.touched || submitted) && !creditNotes.valid" class="alert alert-danger">
+          <div *ngIf="!!creditNotes.errors?.required">
+            Nota de Credito es <strong>requerida</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<div class="text-center">
+  <h6> <strong class="text-danger font-weight-bolder">*</strong> Es importante que considere que cualquier cambio
+    en este campo es responsabilidad suya, ya que usted <br> está obligado a presentar los avisos
+    correspondientes ante el SAT para registrar su Régimen Fiscal y escribir <br> el que le corresponda
+    de acuerdo a la normatividad vigente.</h6>
+</div>

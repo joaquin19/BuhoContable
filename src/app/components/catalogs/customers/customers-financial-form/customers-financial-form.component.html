@@ -1,0 +1,128 @@
+<form #formCustomerFinancial="ngForm">
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bankAccount">No. Cuenta</label>
+        <input mask="0*" class="form-control" name="bankAccount" [(ngModel)]="customerFinancial.account"
+          #bankAccount="ngModel" maxlength="18" appAutofocus required>
+        <div *ngIf="(bankAccount.dirty || bankAccount.touched || submitted) && !bankAccount.valid"
+          class="alert alert-danger">
+          <div *ngIf="!!bankAccount.errors?.required">
+            No. Cuenta es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bankKey">Clabe</label>
+        <input mask="0*" class="form-control" name="bankKey" [(ngModel)]="customerFinancial.clabe" #bankKey="ngModel"
+          maxlength="18" required>
+        <div *ngIf="(bankKey.dirty || bankKey.touched || submitted) && !bankKey.valid" class="alert alert-danger">
+          <div *ngIf="bankKey.errors?.required">
+            Clabe es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="bank">Banco</label>
+        <ejs-dropdownlist #bankObj #bankId="ngModel" [(ngModel)]="customerFinancial.bankId" id="bankId" name="bankId"
+          [dataSource]="listBanks" [fields]="{ text: 'name', value: 'id' }" (filtering)="filteringBank($event)"
+          [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true" [ignoreAccent]="true"
+          [placeholder]="'Seleccione un banco'" [showClearButton]="true" (change)="changeBank()" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(bankId.dirty || bankId.touched || submitted) && !bankId.valid" class="alert alert-danger">
+          <div *ngIf="!!bankId.errors?.required">
+            Banco es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="currency">Moneda</label>
+        <ejs-dropdownlist #currencyObj #currencyId="ngModel" [(ngModel)]="customerFinancial.currencyId" name="currencyId"
+          [dataSource]="listCurrencies" [fields]="{ text: 'fullName', value: 'id' }" id="currencyId"
+          (filtering)="filteringCurrency($event)" [filterBarPlaceholder]="'Buscar'" [allowFiltering]="true"
+          [ignoreAccent]="true" [placeholder]="'Seleccione una moneda'" [showClearButton]="true"
+          (change)="changeCurrency()" required>
+        </ejs-dropdownlist>
+        <div *ngIf="(currencyId.dirty || currencyId.touched || submitted) && !currencyId.valid" class="alert alert-danger">
+          <div *ngIf="!!currencyId.errors?.required">
+            Moneda es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="swift">Swift Code</label>
+        <input type="text" class="form-control" name="swift" [(ngModel)]="customerFinancial.swift" #swift="ngModel"
+          maxlength="18" required>
+        <div *ngIf="(swift.dirty || swift.touched || submitted) && !swift.valid" class="alert alert-danger">
+          <div *ngIf="!!swift.errors?.required">
+            Swift Code es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="contactName">Contacto</label>
+        <input type="text" class="form-control" name="contactName" [(ngModel)]="customerFinancial.contactName" #contactName="ngModel"
+          maxlength="18" required>
+        <div *ngIf="(contactName.dirty || contactName.touched || submitted) && !contactName.valid" class="alert alert-danger">
+          <div *ngIf="!!contactName.errors?.required">
+            Contacto es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="email">Email</label>
+        <input type="text" class="form-control" name="email" [(ngModel)]="customerFinancial.email" #email="ngModel"
+          maxlength="30"
+          pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
+          (ngModelChange)="customerFinancial.email=$event.toUpperCase()">
+        <div *ngIf="(email.dirty || email.touched || submitted) && !email.valid" class="alert alert-danger">
+          <div *ngIf="!!email.errors?.required">
+            Email es <strong>requerido</strong>
+          </div>
+          <div *ngIf="!!email.errors?.pattern">
+            El formato del Email es <strong>inválido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="form-group">
+        <label class="font-weight-bold" for="phone">Teléfono</label>
+        <input mask="0*" class="form-control" name="phone" [(ngModel)]="customerFinancial.phone" #phone="ngModel"
+          maxlength="18">
+        <div *ngIf="(phone.dirty || phone.touched || submitted) && !phone.valid" class="alert alert-danger">
+          <div *ngIf="!!phone.errors?.required">
+            Teléfono es <strong>requerido</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
